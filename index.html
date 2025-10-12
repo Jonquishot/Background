@@ -12,6 +12,7 @@
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    /* Ocultar barras de rolagem */
     body::-webkit-scrollbar,
     .content::-webkit-scrollbar {
       display: none;
@@ -115,60 +116,67 @@
     }
     .footer-info {
       width: 90%;
-      padding: 8px;
-      text-align: left;
-      color: #ddd;
+      padding: 8px; /* Reduzido para compactar */
+      text-align: left; /* Alinhamento à esquerda para o conteúdo */
+      color: #ddd; /* Cor do texto mais clara */
       font-size: 12px;
       border-top: 1px solid #333;
-      margin-top: auto;
-      background: rgba(20, 20, 30, 0.7);
+      margin-top: auto; /* Empurra para o final do sidebar */
+      background: rgba(20, 20, 30, 0.7); /* Fundo consistente com o sidebar */
       border-radius: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; /* Usar flex para centralizar itens se necessário */
+      align-items: center; /* Alinha verticalmente */
+      gap: 8px; /* Espaçamento entre avatar e texto */
     }
+
     .user-profile-footer {
       display: flex;
       align-items: center;
       gap: 8px;
       width: 100%;
     }
+
     .user-avatar-footer {
-      width: 32px;
+      width: 32px; /* Tamanho do avatar no rodapé */
       height: 32px;
       border-radius: 50%;
-      border: 1px solid #4a9bff;
-      object-fit: cover;
+      border: 1px solid #4a9bff; /* Borda consistente com o tema */
+      object-fit: cover; /* Garante que a imagem cubra o espaço sem distorção */
     }
+
     .user-details-footer {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      flex: 1;
-      min-width: 0;
+      justify-content: center; /* Centraliza verticalmente os textos */
+      flex: 1; /* Ocupa o espaço restante */
+      min-width: 0; /* Permite que o conteúdo seja truncado se necessário */
     }
+
     .user-name-footer {
       font-weight: bold;
-      color: #4a9bff;
+      color: #4a9bff; /* Cor do nome destaca */
       font-size: 13px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; /* Evita quebra de linha no nome */
+      overflow: hidden; /* Esconde o excesso */
+      text-overflow: ellipsis; /* Adiciona "..." se o nome for muito longo */
     }
+
     .user-role-footer {
-      color: #aaa;
+      color: #aaa; /* Cor mais clara para o cargo */
       font-size: 11px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; /* Evita quebra de linha no cargo */
+      overflow: hidden; /* Esconde o excesso */
+      text-overflow: ellipsis; /* Adiciona "..." se o cargo for muito longo */
     }
+
     .loading-placeholder {
       color: #777;
       font-style: italic;
       width: 100%;
       text-align: center;
-      padding: 5px 0;
+      padding: 5px 0; /* Espaçamento interno */
     }
+
     .content {
       flex: 1;
       padding: 20px;
@@ -178,7 +186,7 @@
       justify-content: flex-start;
       align-items: center;
       overflow: hidden;
-      opacity: 0.85;
+      opacity: 0.85; /* Mantida a opacidade solicitada */
     }
     .content-header {
       display: flex;
@@ -233,6 +241,7 @@
       display: flex;
       flex-direction: column;
     }
+    /* Layout inspirado na imagem - quadrados lado a lado sem scroll */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -270,6 +279,11 @@
       padding: 6px 0;
       border-bottom: 1px solid #333;
       margin-bottom: 5px;
+    }
+    .feature-name {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     .feature-name h4 {
       color: #ddd;
@@ -351,6 +365,45 @@
     input:checked + .slider:before {
       transform: translateX(20px);
     }
+    @media (max-width: 950px) {
+      #app {
+        width: 850px;
+        height: 650px;
+      }
+    }
+    @media (max-width: 800px) {
+      #app {
+        width: 95%;
+        height: auto;
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        padding: 12px;
+      }
+      .logo {
+        width: 110px;
+        height: 50px;
+        margin: 0 8px 0 0;
+      }
+      .menu-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: auto;
+      }
+      .sidebar button {
+        width: calc(33% - 8px);
+        margin: 4px;
+        font-size: 13px;
+        padding: 10px 6px;
+      }
+      .content {
+        height: 500px;
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -367,6 +420,7 @@
           {{ btn.label }}
         </button>
       </div>
+      <!-- Novo rodapé com perfil do Discord -->
       <div class="footer-info">
         <div v-if="userProfile.name" class="user-profile-footer">
           <img :src="userProfile.avatar" alt="Avatar" class="user-avatar-footer">
@@ -381,148 +435,344 @@
       </div>
     </div>
     <div class="content">
-      <div class="content-header">
-        <div class="sub-menu-tabs">
-          <template v-if="activeButton === 'Jogador'">
-            <button v-for="tab in jogadorTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-          <template v-if="activeButton === 'Veiculos'">
-            <button v-for="tab in veiculosTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-          <template v-if="activeButton === 'Armas'">
-            <button v-for="tab in armasTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-          <template v-if="activeButton === 'Online'">
-            <button v-for="tab in onlineTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-          <template v-if="activeButton === 'Exploits'">
-            <button v-for="tab in exploitsTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-          <template v-if="activeButton === 'Visual'">
-            <button v-for="tab in visualTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-          <template v-if="activeButton === 'Configuracoes'">
-            <button v-for="tab in configuracoesTabs" :key="tab.name"
-                    @click="selectSubTab(tab.name)"
-                    :class="{ active: activeSubTab === tab.name }"
-                    class="sub-menu-tab">
-              {{ tab.label }}
-            </button>
-          </template>
-        </div>
-        <div class="search-bar">
-          <input type="text" placeholder="Pesquisar..." style="background: rgba(40,40,60,0.6); border: 1px solid #444; color: #ddd; padding: 8px; border-radius: 6px; width: 260px;">
+      <div class="content-header" style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: nowrap;">
+      <div class="sub-menu-tabs" style="display: flex; gap: 20px; align-items: center; border: none; padding: 0; margin: 0; flex: 1; align-self: stretch;">
+        <template v-if="activeButton === 'Jogador'">
+          <button v-for="tab in jogadorTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+        <template v-if="activeButton === 'Veiculos'">
+          <button v-for="tab in veiculosTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+        <template v-if="activeButton === 'Armas'">
+          <button v-for="tab in armasTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+        <template v-if="activeButton === 'Online'">
+          <button v-for="tab in onlineTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+        <template v-if="activeButton === 'Exploits'">
+          <button v-for="tab in exploitsTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+        <template v-if="activeButton === 'Visual'">
+          <button v-for="tab in visualTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+        <template v-if="activeButton === 'Configuracoes'">
+          <button v-for="tab in configuracoesTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
+      </div>
+        <div class="search-bar" style="margin-left: 20px;">
+          <input type="text" placeholder="Pesquisar..." style="background: rgba(40,40,60,0.6); border: 1px solid #444; color: #ddd; padding: 8px; border-radius: 6px; width: 260px; display: inline-block;">
         </div>
       </div>
       <div class="content-section">
-        <!-- Jogador - Geral -->
+        <!-- Jogador - submenus -->
         <div v-if="activeButton === 'Jogador' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
-              <div class="category-header"><i class="fas fa-user"></i> Geral</div>
+              <div class="category-header">
+                <div><i class="fas fa-user"></i> Geral</div>
+              </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>GodMod</h4><p>Invencibilidade total</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>GodMod</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" @change="toggleGodMod($event.target.checked)">
+                    <input type="checkbox" checked>
                     <span class="slider"></span>
                   </label>
                 </div>
               </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Reviver</h4><p>Mata o jogador</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>Reviver</h4>
+                  <p>Mata o jogador</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
-                  <button @click="reviver()" style="padding:2px 6px;font-size:10px;background:#4a9bff;color:white;border:none;border-radius:4px;">Executar</button>
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
                 </div>
               </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Suicidar</h4><p>Retira sua vida</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>Suicidar</h4>
+                  <p>Retira sua vida</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
-                  <button @click="suicidio()" style="padding:2px 6px;font-size:10px;background:#ff4444;color:white;border:none;border-radius:4px;">Executar</button>
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
                 </div>
               </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Curar-se</h4><p>Vida e colete total</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
-                  <button @click="curar()" style="padding:2px 6px;font-size:10px;background:#22aa22;color:white;border:none;border-radius:4px;">Executar</button>
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
                 </div>
               </div>
             </div>
             <div class="category-card">
-              <div class="category-header"><i class="fas fa-walking"></i> Movimenta��o</div>
+              <div class="category-header">
+                <div><i class="fas fa-walking"></i> Movimentação</div>
+              </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Noclip</h4><p>Voa invis�vel</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>Noclip</h4>
+                  <p>Voa invisível</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" @change="toggleNoclip($event.target.checked)">
+                    <input type="checkbox">
                     <span class="slider"></span>
                   </label>
                 </div>
               </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Freecam</h4><p>Escute e observe de longe</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>Freecam</h4>
+                  <p>Escute e observe de longe</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" @change="toggleFreecam($event.target.checked)">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
                     <span class="slider"></span>
                   </label>
                 </div>
               </div>
             </div>
             <div class="category-card">
-              <div class="category-header"><i class="fas fa-bolt"></i> Poderes</div>
+              <div class="category-header">
+                <div><i class="fas fa-bolt"></i> Poderes</div>
+              </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Modo Hulk</h4><p>Arremessa ve�culos no Y</p></div>
-                <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
+                <div class="feature-name">
+                  <h4>Modo Hulk</h4>
+                  <p>Arremessa veículos no Y</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" @change="toggleHulk($event.target.checked)">
+                    <input type="checkbox">
                     <span class="slider"></span>
                   </label>
                 </div>
               </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Andar sobre a �gua</h4><p>Anda sobre a �gua</p></div>
-                <div class="feature-status risk"><span class="status-indicator"></span> Risco</div>
+                <div class="feature-name">
+                  <h4>Magneto</h4>
+                  <p>Atrair e repelir veículos</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
                 <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" @change="toggleAndarNaAgua($event.target.checked)">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Super pulo</h4>
+                  <p>Pular uma altura maior</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Andar sobre a água</h4>
+                  <p>Anda sobre a água</p>
+                </div>
+                <div class="feature-status risk">
+                  <span class="status-indicator"></span> Risco
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-shield-alt"></i> Proteção</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>GodMod</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Reviver</h4>
+                  <p>Mata o jogador</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -530,15 +780,603 @@
             </div>
           </div>
         </div>
-
-        <!-- Demais abas (Ve�culos, Armas, etc.) podem ser expandidas depois -->
-        <div v-if="activeButton !== 'Jogador' || activeSubTab !== 'Geral'" style="display:flex;align-items:center;justify-content:center;height:100%;color:#666;">
-          <p>Funcionalidades em desenvolvimento...</p>
+        <!-- Jogador - Roupa personalizada -->
+        <div v-if="activeButton === 'Jogador' && activeSubTab === 'Roupa'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
+          <div class="category-grid" style="flex: 1;">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-tshirt"></i> Roupas customizadas</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Mão</h4>
+                  <p>Personalizar mãos</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Braço</h4>
+                  <p>Personalizar braços</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Curar-se</h4>
+                  <p>Invencibilidade total</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-tshirt"></i> Roupas customizadas</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Doisdo</h4>
+                  <p>Cidade: bahamas</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-eye config-icon"></i>
+                  <i class="fas fa-edit config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Assogueiro</h4>
+                  <p>Cidade: santa group</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-eye config-icon"></i>
+                  <i class="fas fa-edit config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Paulinho loko</h4>
+                  <p>Cidade: fluxo</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-eye config-icon"></i>
+                  <i class="fas fa-edit config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <button class="btn btn-secondary" style="padding: 6px 12px; background: #aa2222; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;">
+              Remover
+            </button>
+            <button class="btn btn-primary" style="padding: 6px 12px; background: #22aa22; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;">
+              Adicionar
+            </button>
+          </div>
+        </div>
+        <!-- Veículos - submenus -->
+        <div v-if="activeButton === 'Veículos' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-car"></i> Todos os Veículos</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Spawnar Coquette</h4>
+                  <p>Veículo esportivo</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Spawnar Flatbed</h4>
+                  <p>Veículo de carga</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Spawnar Akuma</h4>
+                  <p>Veículo moto</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Spawnar Marquis</h4>
+                  <p>Veículo barco</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Armas - submenus -->
+        <div v-if="activeButton === 'Armas' && activeSubTab === 'Todas'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-gun"></i> Todas as Armas</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Pistola</h4>
+                  <p>Adicionar à mão</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>SMG</h4>
+                  <p>Adicionar à mão</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Assault Rifle</h4>
+                  <p>Adicionar à mão</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Sniper</h4>
+                  <p>Adicionar à mão</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Safe
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Online - submenus -->
+        <div v-if="activeButton === 'Online' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-users"></i> Jogadores Online</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Alex_Racer</h4>
+                  <p>ID: 1234 | Nível: 42</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Online
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-user-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Miguel_123</h4>
+                  <p>ID: 5678 | Nível: 38</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Online
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-user-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Carla_Drive</h4>
+                  <p>ID: 9012 | Nível: 45</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Online
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-user-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Ricardo_X</h4>
+                  <p>ID: 3456 | Nível: 35</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Online
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-user-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Exploits - submenus -->
+        <div v-if="activeButton === 'Exploits' && activeSubTab === 'Anti-Cheat'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-shield-alt"></i> Sistema Anti-Cheat</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Proteção Anti-Cheat</h4>
+                  <p>Sistema avançado de detecção de trapaças</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Ativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Bloqueio de Exploits</h4>
+                  <p>Impede o uso de exploits conhecidos</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Ativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Monitoramento</h4>
+                  <p>Supervisiona atividades suspeitas</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Ativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Registro</h4>
+                  <p>Registra todas as ações suspeitas</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Ativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Visual - submenus -->
+        <div v-if="activeButton === 'Visual' && activeSubTab === 'Ambiente'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-eye"></i> Configurações Visuais</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Luminosidade</h4>
+                  <p>Ajustar brilho do ambiente</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Normal
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Clima</h4>
+                  <p>Controlar condições climáticas</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Normal
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Vento</h4>
+                  <p>Controlar direção e intensidade</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Normal
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Horário</h4>
+                  <p>Definir hora do dia</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Normal
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Configurações - submenus -->
+        <div v-if="activeButton === 'Configurações' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-cog"></i> Configurações Gerais</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Modo Invisível</h4>
+                  <p>Ocultar jogador dos outros</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Desativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Anti-Exploits</h4>
+                  <p>Ativar proteção contra trapaças</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Ativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Chat Global</h4>
+                  <p>Permitir mensagens globais</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Desativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Notificações</h4>
+                  <p>Receber alertas e notificações</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Ativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Modo Competitivo</h4>
+                  <p>Ativar regras competitivas</p>
+                </div>
+                <div class="feature-status safe">
+                  <span class="status-indicator"></span> Desativado
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
   <script>
     new Vue({
       el: '#app',
@@ -547,70 +1385,92 @@
         activeSubTab: 'Geral',
         buttons: [
           { name: 'Jogador', label: 'Jogador', icon: 'fas fa-user' },
-          { name: 'Veiculos', label: 'Ve�culos', icon: 'fas fa-car' },
+          { name: 'Veiculos', label: 'Veículos', icon: 'fas fa-car' },
           { name: 'Armas', label: 'Armas', icon: 'fas fa-gun' },
           { name: 'Online', label: 'Online', icon: 'fas fa-users' },
           { name: 'Exploits', label: 'Exploits', icon: 'fas fa-shield-alt' },
           { name: 'Visual', label: 'Visual', icon: 'fas fa-eye' },
-          { name: 'Configuracoes', label: 'Configura��es', icon: 'fas fa-cog' }
+          { name: 'Configuracoes', label: 'Configurações', icon: 'fas fa-cog' }
         ],
-        jogadorTabs: [{ name: 'Geral', label: 'Geral' }, { name: 'Roupa', label: 'Roupa' }],
-        veiculosTabs: [{ name: 'Todos', label: 'Todos' }],
-        armasTabs: [{ name: 'Todas', label: 'Todas' }],
-        onlineTabs: [{ name: 'Todos', label: 'Todos' }],
-        exploitsTabs: [{ name: 'Anti-Cheat', label: 'Anti-Cheat' }],
-        visualTabs: [{ name: 'Ambiente', label: 'Ambiente' }],
-        configuracoesTabs: [{ name: 'Geral', label: 'Geral' }],
-        userProfile: { name: '', role: '', avatar: '' }
+        jogadorTabs: [
+          { name: 'Geral', label: 'Geral' },
+          { name: 'Roupa', label: 'Roupa' }
+        ],
+        veiculosTabs: [
+          { name: 'Todos', label: 'Todos' }
+        ],
+        armasTabs: [
+          { name: 'Todas', label: 'Todas' }
+        ],
+        onlineTabs: [
+          { name: 'Todos', label: 'Todos' }
+        ],
+        exploitsTabs: [
+          { name: 'Anti-Cheat', label: 'Anti-Cheat' }
+        ],
+        visualTabs: [
+          { name: 'Ambiente', label: 'Ambiente' }
+        ],
+        configuracoesTabs: [
+          { name: 'Geral', label: 'Geral' }
+        ],
+        // Objeto para armazenar os dados do perfil do usuário
+        userProfile: {
+          name: '', // Inicializado vazio
+          role: '', // Inicializado vazio
+          avatar: '' // Inicializado vazio
+        }
       },
       methods: {
-        sendNui(action, data = {}) {
-          fetch(`https://quis/menu/${action}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          }).catch(console.error);
-        },
-        toggleGodMod(enabled) { this.sendNui('toggle_godmod', { enabled }); },
-        toggleNoclip(enabled) { this.sendNui('toggle_noclip', { enabled }); },
-        toggleFreecam(enabled) { this.sendNui('toggle_freecam', { enabled }); },
-        toggleHulk(enabled) { this.sendNui('toggle_hulk', { enabled }); },
-        toggleAndarNaAgua(enabled) { this.sendNui('toggle_andar_na_agua', { enabled }); },
-        reviver() { this.sendNui('reviver'); },
-        suicidio() { this.sendNui('suicidio'); },
-        curar() { this.sendNui('curar'); },
         selectButton(btnName) {
           this.activeButton = btnName;
           if (btnName === 'Jogador') this.activeSubTab = 'Geral';
-          else if (btnName === 'Veiculos') this.activeSubTab = 'Todos';
+          else if (btnName === 'Veículos') this.activeSubTab = 'Todos';
           else if (btnName === 'Armas') this.activeSubTab = 'Todas';
           else if (btnName === 'Online') this.activeSubTab = 'Todos';
           else if (btnName === 'Exploits') this.activeSubTab = 'Anti-Cheat';
           else if (btnName === 'Visual') this.activeSubTab = 'Ambiente';
-          else if (btnName === 'Configuracoes') this.activeSubTab = 'Geral';
+          else if (btnName === 'Configurações') this.activeSubTab = 'Geral';
         },
-        selectSubTab(tabName) { this.activeSubTab = tabName; },
+        selectSubTab(tabName) {
+          this.activeSubTab = tabName;
+        },
+        // Função para buscar os dados do usuário da API do Discord
         async fetchDiscordProfile() {
           try {
-            const userId = '123456789012345678';
+            // Use a URL da sua API aqui
+            // Substitua pelo ID do usuário ou por uma variável dinâmica se aplicável
+            const userId = '123456789012345678'; // Exemplo de ID
             const response = await fetch(`https://api.miauapi.ga/user/${userId}`);
-            if (!response.ok) throw new Error(`Erro: ${response.status}`);
+            if (!response.ok) {
+              throw new Error(`Erro na API: ${response.status}`);
+            }
             const userData = await response.json();
-            this.userProfile.name = userData.name || 'Usu�rio';
-            this.userProfile.role = userData.role || 'Cargo n�o definido';
+
+            // Atualiza o objeto userProfile com os dados recebidos
+            this.userProfile.name = userData.name || 'Usuário';
+            this.userProfile.role = userData.role || 'Cargo não definido';
+            // A API fornece a URL base do avatar, precisamos construir a URL completa
+            // Assumindo que a API retorna algo como 'a_1234567890abcdef' para avatares animados ou '1234567890abcdef' para normais
             const avatarHash = userData.avatar;
             if (avatarHash) {
-              const type = avatarHash.startsWith('a_') ? 'gif' : 'png';
-              this.userProfile.avatar = `https://cdn.discordapp.com/avatars/${userData.id}/${avatarHash}.${type}?size=64`;
+              // Determina se o avatar é GIF (animado) ou PNG (padrão)
+              const avatarType = avatarHash.startsWith('a_') ? 'gif' : 'png';
+              this.userProfile.avatar = `https://cdn.discordapp.com/avatars/${userData.id}/${avatarHash}.${avatarType}?size=64`; // Tamanho pode ser ajustado
             } else {
-              this.userProfile.avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
+              // Avatar padrão se nenhum for fornecido
+              this.userProfile.avatar = 'https://cdn.discordapp.com/embed/avatars/0.png'; // Avatar genérico do Discord
             }
           } catch (error) {
-            console.error('Erro ao buscar perfil:', error);
-            this.userProfile = { name: 'Erro', role: 'Verifique conex�o', avatar: 'https://cdn.discordapp.com/embed/avatars/0.png' };
+            console.error('Erro ao buscar o perfil do Discord:', error);
+            // Tratamento de erro: você pode definir valores padrão ou mostrar uma mensagem
+            this.userProfile.name = 'Erro ao carregar';
+            this.userProfile.role = 'Verifique a conexão';
+            this.userProfile.avatar = 'https://cdn.discordapp.com/embed/avatars/0.png'; // Avatar genérico em caso de erro
           }
         }
       },
+      // Executa a função fetchDiscordProfile quando o componente Vue é montado
       mounted() {
         this.fetchDiscordProfile();
       }
