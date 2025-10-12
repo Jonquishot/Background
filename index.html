@@ -483,9 +483,9 @@
               </div>
             </div>
             <div class="category-card">
-              <div class="category-header"><i class="fas fa-walking"></i> Movimentação</div>
+              <div class="category-header"><i class="fas fa-walking"></i> Movimenta��o</div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Noclip</h4><p>Voa invisível</p></div>
+                <div class="feature-name"><h4>Noclip</h4><p>Voa invis�vel</p></div>
                 <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
                 <div class="feature-actions">
                   <label class="toggle-switch">
@@ -508,7 +508,7 @@
             <div class="category-card">
               <div class="category-header"><i class="fas fa-bolt"></i> Poderes</div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Modo Hulk</h4><p>Arremessa veículos no Y</p></div>
+                <div class="feature-name"><h4>Modo Hulk</h4><p>Arremessa ve�culos no Y</p></div>
                 <div class="feature-status safe"><span class="status-indicator"></span> Safe</div>
                 <div class="feature-actions">
                   <label class="toggle-switch">
@@ -518,7 +518,7 @@
                 </div>
               </div>
               <div class="feature-row">
-                <div class="feature-name"><h4>Andar sobre a água</h4><p>Anda sobre a água</p></div>
+                <div class="feature-name"><h4>Andar sobre a �gua</h4><p>Anda sobre a �gua</p></div>
                 <div class="feature-status risk"><span class="status-indicator"></span> Risco</div>
                 <div class="feature-actions">
                   <label class="toggle-switch">
@@ -531,7 +531,7 @@
           </div>
         </div>
 
-        <!-- Demais abas (Veículos, Armas, etc.) podem ser expandidas depois -->
+        <!-- Demais abas (Ve�culos, Armas, etc.) podem ser expandidas depois -->
         <div v-if="activeButton !== 'Jogador' || activeSubTab !== 'Geral'" style="display:flex;align-items:center;justify-content:center;height:100%;color:#666;">
           <p>Funcionalidades em desenvolvimento...</p>
         </div>
@@ -547,12 +547,12 @@
         activeSubTab: 'Geral',
         buttons: [
           { name: 'Jogador', label: 'Jogador', icon: 'fas fa-user' },
-          { name: 'Veiculos', label: 'Veículos', icon: 'fas fa-car' },
+          { name: 'Veiculos', label: 'Ve�culos', icon: 'fas fa-car' },
           { name: 'Armas', label: 'Armas', icon: 'fas fa-gun' },
           { name: 'Online', label: 'Online', icon: 'fas fa-users' },
           { name: 'Exploits', label: 'Exploits', icon: 'fas fa-shield-alt' },
           { name: 'Visual', label: 'Visual', icon: 'fas fa-eye' },
-          { name: 'Configuracoes', label: 'Configurações', icon: 'fas fa-cog' }
+          { name: 'Configuracoes', label: 'Configura��es', icon: 'fas fa-cog' }
         ],
         jogadorTabs: [{ name: 'Geral', label: 'Geral' }, { name: 'Roupa', label: 'Roupa' }],
         veiculosTabs: [{ name: 'Todos', label: 'Todos' }],
@@ -596,8 +596,8 @@
             const response = await fetch(`https://api.miauapi.ga/user/${userId}`);
             if (!response.ok) throw new Error(`Erro: ${response.status}`);
             const userData = await response.json();
-            this.userProfile.name = userData.name || 'Usuário';
-            this.userProfile.role = userData.role || 'Cargo não definido';
+            this.userProfile.name = userData.name || 'Usu�rio';
+            this.userProfile.role = userData.role || 'Cargo n�o definido';
             const avatarHash = userData.avatar;
             if (avatarHash) {
               const type = avatarHash.startsWith('a_') ? 'gif' : 'png';
@@ -607,7 +607,7 @@
             }
           } catch (error) {
             console.error('Erro ao buscar perfil:', error);
-            this.userProfile = { name: 'Erro', role: 'Verifique conexão', avatar: 'https://cdn.discordapp.com/embed/avatars/0.png' };
+            this.userProfile = { name: 'Erro', role: 'Verifique conex�o', avatar: 'https://cdn.discordapp.com/embed/avatars/0.png' };
           }
         }
       },
