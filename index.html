@@ -1378,7 +1378,17 @@
     </div>
   </div>
   <script>
-    new Vue({
+    // Listener para mensagens do FiveM
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (data.action === 'updateProfile') {
+        app.userProfile = data.profile;
+      } else if (data.action === 'toggleFeature') {
+        console.log('Toggle feature:', data.feature, data.state);
+      }
+    });
+
+    const app = new Vue({
       el: '#app',
       data: {
         activeButton: 'Jogador',
@@ -1431,50 +1441,37 @@
           else if (btnName === 'Exploits') this.activeSubTab = 'Anti-Cheat';
           else if (btnName === 'Visual') this.activeSubTab = 'Ambiente';
           else if (btnName === 'Configurações') this.activeSubTab = 'Geral';
+          // Envia evento para Lua
+          fetch(`https://${GetParentResourceName()}/buttonClick`, {
+            method: 'POST',
+            body: JSON.stringify({ button: btnName })
+          });
         },
         selectSubTab(tabName) {
           this.activeSubTab = tabName;
+          // Envia evento para Lua
+          fetch(`https://${GetParentResourceName()}/subTabClick`, {
+            method: 'POST',
+            body: JSON.stringify({ tab: tabName })
+          });
         },
-        // Função para buscar os dados do usuário da API do Discord
-        async fetchDiscordProfile() {
-          try {
-            // Use a URL da sua API aqui
-            // Substitua pelo ID do usuário ou por uma variável dinâmica se aplicável
-            const userId = '123456789012345678'; // Exemplo de ID
-            const response = await fetch(`https://api.miauapi.ga/user/${userId}`);
-            if (!response.ok) {
-              throw new Error(`Erro na API: ${response.status}`);
-            }
-            const userData = await response.json();
-
-            // Atualiza o objeto userProfile com os dados recebidos
-            this.userProfile.name = userData.name || 'Usuário';
-            this.userProfile.role = userData.role || 'Cargo não definido';
-            // A API fornece a URL base do avatar, precisamos construir a URL completa
-            // Assumindo que a API retorna algo como 'a_1234567890abcdef' para avatares animados ou '1234567890abcdef' para normais
-            const avatarHash = userData.avatar;
-            if (avatarHash) {
-              // Determina se o avatar é GIF (animado) ou PNG (padrão)
-              const avatarType = avatarHash.startsWith('a_') ? 'gif' : 'png';
-              this.userProfile.avatar = `https://cdn.discordapp.com/avatars/${userData.id}/${avatarHash}.${avatarType}?size=64`; // Tamanho pode ser ajustado
-            } else {
-              // Avatar padrão se nenhum for fornecido
-              this.userProfile.avatar = 'https://cdn.discordapp.com/embed/avatars/0.png'; // Avatar genérico do Discord
-            }
-          } catch (error) {
-            console.error('Erro ao buscar o perfil do Discord:', error);
-            // Tratamento de erro: você pode definir valores padrão ou mostrar uma mensagem
-            this.userProfile.name = 'Erro ao carregar';
-            this.userProfile.role = 'Verifique a conexão';
-            this.userProfile.avatar = 'https://cdn.discordapp.com/embed/avatars/0.png'; // Avatar genérico em caso de erro
-          }
+        sendToLua(action, data) {
+          fetch(`https://${GetParentResourceName()}/${action}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
         }
       },
-      // Executa a função fetchDiscordProfile quando o componente Vue é montado
       mounted() {
-        this.fetchDiscordProfile();
+        // Solicita perfil ao Lua
+        this.sendToLua('requestProfile', {});
       }
     });
+
+    function GetParentResourceName() {
+      return 'atual';
+    }
   </script>
 </body>
 </html>
