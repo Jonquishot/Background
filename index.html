@@ -520,10 +520,10 @@
                   </label>
                 </div>
               </div>
-              <div class="feature-row" id="btn-reviver">
+              <div class="feature-row">
                 <div class="feature-name">
                   <h4>Reviver</h4>
-                  <p>Revive o jogador</p>
+                  <p>Mata o jogador</p>
                 </div>
                 <div class="feature-status safe">
 
@@ -531,7 +531,7 @@
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" id="toggle-reviver">
+                    <input type="checkbox">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -547,7 +547,7 @@
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" @change="toggleSuicidio">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1450,10 +1450,12 @@
           this.activeSubTab = tabName;
           console.log('Sub-aba selecionada:', tabName);
         },
+        toggleSuicidio() {
+          window.postMessage({ action: 'suicidio' }, '*');
+          console.log('Suicídio acionado');
+        },
         sendToLua(action, data) {
           console.log('Tentando enviar para Lua:', action, data);
-          // DUI externo não pode fazer fetch de volta para FiveM
-          // A interação deve ser detectada pelo Lua via posição do mouse
         }
       },
       mounted() {
