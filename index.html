@@ -564,7 +564,7 @@
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" data-action="suicidio" @change="handleToggle('suicidio', $event)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1477,9 +1477,17 @@
           console.log('Sub-aba selecionada:', tabName);
         },
         sendToLua(action, data) {
-          console.log('Tentando enviar para Lua:', action, data);
-          // DUI externo não pode fazer fetch de volta para FiveM
-          // A interação deve ser detectada pelo Lua via posição do mouse
+          console.log('Enviando para Lua:', action, data);
+          fetch(`https://${GetParentResourceName()}/${action}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        },
+        handleToggle(action, event) {
+          const isChecked = event.target.checked;
+          console.log(`Toggle ${action}:`, isChecked);
+          this.sendToLua(action, { state: isChecked });
         }
       },
       mounted() {
