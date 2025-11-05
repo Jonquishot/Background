@@ -536,7 +536,7 @@
                   </label>
                 </div>
               </div>
-              <div class="feature-row">
+              <div class="feature-row" id="suicidar-btn" style="cursor: pointer; border: 2px solid #ff0000; position: relative; z-index: 9999;">
                 <div class="feature-name">
                   <h4>Suicidar</h4>
                   <p>Retira sua vida</p>
@@ -1464,8 +1464,170 @@
     });
 
     function GetParentResourceName() {
-      return 'atual';
+      try {
+        // Tentar obter o nome do recurso de várias formas
+        if (window.GetParentResourceName && typeof window.GetParentResourceName === 'function') {
+          const resourceName = window.GetParentResourceName();
+          console.log('Nome do recurso obtido via window.GetParentResourceName():', resourceName);
+          return resourceName;
+        } else if (window.parent && window.parent.GetParentResourceName) {
+          const resourceName = window.parent.GetParentResourceName();
+          console.log('Nome do recurso obtido via window.parent.GetParentResourceName():', resourceName);
+          return resourceName;
+        } else {
+          console.log('GetParentResourceName não disponível, usando nome padrão');
+          return 'atual';
+        }
+      } catch (e) {
+        console.log('Erro ao obter nome do recurso, usando nome padrão:', e);
+        return 'atual';
+      }
     }
-  </script>
-</body>
-</html>
+
+    // Adicionar evento de clique ao botão Suicidar
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM completamente carregado');
+      
+      // Adicionar evento de clique no documento para debugging
+      document.addEventListener('click', function(event) {
+        console.log('Clique detectado no documento:', event.target);
+        if (event.target.id === 'suicidar-btn' || event.target.closest('#suicidar-btn')) {
+          console.log('Clique no botão Suicidar detectado via document listener');
+        }
+      });
+      
+      // Tentar encontrar o botão de várias formas
+      let suicidarBtn = document.getElementById('suicidar-btn');
+      if (!suicidarBtn) {
+        // Tentar encontrar pelo seletor CSS
+        suicidarBtn = document.querySelector('#suicidar-btn');
+      }
+      if (!suicidarBtn) {
+        // Tentar encontrar pelo texto
+        const allRows = document.querySelectorAll('.feature-row');
+        for (let i = 0; i < allRows.length; i++) {
+          const row = allRows[i];
+          const nameElement = row.querySelector('.feature-name h4');
+          if (nameElement && nameElement.textContent.trim() === 'Suicidar') {
+            suicidarBtn = row;
+            break;
+          }
+        }
+      }
+      
+      if (suicidarBtn) {
+        console.log('Botão Suicidar encontrado');
+        console.log('Elemento do botão:', suicidarBtn);
+        console.log('Classe do botão:', suicidarBtn.className);
+        console.log('Filhos do botão:', suicidarBtn.children);
+        
+        // Garantir que o botão seja clicável
+        suicidarBtn.style.cursor = 'pointer';
+        suicidarBtn.tabIndex = 0; // Permitir foco via teclado
+        suicidarBtn.style.position = 'relative';
+        suicidarBtn.style.zIndex = '9999';
+        
+        // Adicionar evento de clique em todos os elementos filhos também
+        const allChildren = suicidarBtn.querySelectorAll('*');
+        for (let i = 0; i < allChildren.length; i++) {
+          const child = allChildren[i];
+          child.addEventListener('click', function(event) {
+            console.log('Clique em elemento filho:', child);
+            event.stopPropagation();
+            // Disparar o evento no elemento pai
+            suicidarBtn.click();
+          });
+        }
+        
+        // Adicionar evento de clique
+        suicidarBtn.addEventListener('click', function(event) {
+          console.log('Botão Suicidar clicado');
+          console.log('Elemento alvo:', event.target);
+          console.log('Elemento atual:', event.currentTarget);
+          event.preventDefault();
+          event.stopPropagation();
+          
+          // Enviar mensagem para o Lua
+          const resourceName = GetParentResourceName();
+          console.log('Nome do recurso:', resourceName);
+          
+          // Verificar se fetch está disponível
+          if (typeof fetch !== 'undefined') {
+            console.log('Enviando requisição para:', `https://${resourceName}/suicidio`);
+            fetch(`https://${resourceName}/suicidio`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                action: 'suicidio'
+              })
+            }).then(response => {
+              console.log('Resposta recebida do Lua:', response);
+              console.log('Status da resposta:', response.status);
+              console.log('Status text:', response.statusText);
+              if (!response.ok) {
+                console.error('Erro ao enviar requisição para o Lua:', response.status, response.statusText);
+              }
+              return response.text();
+            }).then(text => {
+              console.log('Texto da resposta:', text);
+            }).catch(error => {
+              console.error('Erro na requisição:', error);
+            });
+          } else {
+            console.error('Fetch não está disponível');
+          }
+        });
+        
+        // Adicionar evento de tecla Enter também
+        suicidarBtn.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            console.log('Botão Suicidar acionado via tecla');
+            event.preventDefault();
+            // Disparar o evento de clique
+            suicidarBtn.click();
+          }
+        });
+        
+        // Adicionar evento de foco para debugging
+        suicidarBtn.addEventListener('focus', function() {
+          console.log('Botão Suicidar recebeu foco');
+        });
+        
+        suicidarBtn.addEventListener('mouseenter', function() {
+          console.log('Mouse entrou no botão Suicidar');
+        });
+      } else {
+        console.log('Botão Suicidar não encontrado');
+      }
+    });
+    
+    // Adicionar evento de clique manual para testes
+    window.testSuicideButton = function() {
+      console.log('Testando função de suicídio manualmente');
+      const resourceName = GetParentResourceName();
+      console.log('Nome do recurso:', resourceName);
+      
+      fetch(`https://${resourceName}/suicidio`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'suicidio'
+        })
+      }).then(response => {
+        console.log('Resposta recebida do Lua:', response);
+        console.log('Status da resposta:', response.status);
+        console.log('Status text:', response.statusText);
+        if (!response.ok) {
+          console.error('Erro ao enviar requisição para o Lua:', response.status, response.statusText);
+        }
+        return response.text();
+      }).then(text => {
+        console.log('Texto da resposta:', text);
+      }).catch(error => {
+        console.error('Erro na requisição:', error);
+      });
+    };
