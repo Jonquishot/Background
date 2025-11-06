@@ -47,13 +47,13 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       position: relative;
       /* apagar esse trecho para mostrar interface na pagina */      
-      opacity: 0;      
+      /* opacity: 0;      
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     #app.visible {
       opacity: 1;
-      visibility: visible;
+      visibility: visible; */
       /* apagar esse trecho para mostrar interface na pagina */        
     }
     .sidebar {
@@ -146,14 +146,12 @@
       align-items: center; /* Alinha verticalmente */
       gap: 8px; /* Espaçamento entre avatar e texto */
     }
-
     .user-profile-footer {
       display: flex;
       align-items: center;
       gap: 8px;
       width: 100%;
     }
-
     .user-avatar-footer {
       width: 32px; /* Tamanho do avatar no rodapé */
       height: 32px;
@@ -161,7 +159,6 @@
       border: 1px solid #4a9bff; /* Borda consistente com o tema */
       object-fit: cover; /* Garante que a imagem cubra o espaço sem distorção */
     }
-
     .user-details-footer {
       display: flex;
       flex-direction: column;
@@ -169,7 +166,6 @@
       flex: 1; /* Ocupa o espaço restante */
       min-width: 0; /* Permite que o conteúdo seja truncado se necessário */
     }
-
     .user-name-footer {
       font-weight: bold;
       color: #4a9bff; /* Cor do nome destaca */
@@ -178,7 +174,6 @@
       overflow: hidden; /* Esconde o excesso */
       text-overflow: ellipsis; /* Adiciona "..." se o nome for muito longo */
     }
-
     .user-role-footer {
       color: #aaa; /* Cor mais clara para o cargo */
       font-size: 11px;
@@ -186,7 +181,6 @@
       overflow: hidden; /* Esconde o excesso */
       text-overflow: ellipsis; /* Adiciona "..." se o cargo for muito longo */
     }
-
     .loading-placeholder {
       color: #777;
       font-style: italic;
@@ -194,7 +188,6 @@
       text-align: center;
       padding: 5px 0; /* Espaçamento interno */
     }
-
     .content {
       flex: 1;
       padding: 20px;
@@ -477,6 +470,14 @@
             {{ tab.label }}
           </button>
         </template>
+        <template v-if="activeButton === 'Aimbot'">
+          <button v-for="tab in aimbotTabs" :key="tab.name"
+                  @click="selectSubTab(tab.name)"
+                  :class="{ active: activeSubTab === tab.name }"
+                  class="sub-menu-tab">
+            {{ tab.label }}
+          </button>
+        </template>
         <template v-if="activeButton === 'Online'">
           <button v-for="tab in onlineTabs" :key="tab.name"
                   @click="selectSubTab(tab.name)"
@@ -527,7 +528,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -543,7 +543,6 @@
                   <p>Mata o jogador</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -559,12 +558,11 @@
                   <p>Retira sua vida</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" data-action="suicidio" @change="handleToggle('suicidio', $event)">
+                    <input type="checkbox">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -575,7 +573,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -596,7 +593,6 @@
                   <p>Voa invisível</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -612,7 +608,6 @@
                   <p>Escute e observe de longe</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -628,7 +623,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -644,7 +638,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -665,7 +658,6 @@
                   <p>Arremessa veículos no Y</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -681,7 +673,6 @@
                   <p>Atrair e repelir veículos</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -697,7 +688,6 @@
                   <p>Pular uma altura maior</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -713,7 +703,6 @@
                   <p>Anda sobre a água</p>
                 </div>
                 <div class="feature-status risk">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -734,7 +723,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -750,7 +738,6 @@
                   <p>Mata o jogador</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -766,7 +753,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -782,7 +768,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -808,7 +793,6 @@
                   <p>Personalizar mãos</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -824,7 +808,6 @@
                   <p>Personalizar braços</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -840,7 +823,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -856,7 +838,6 @@
                   <p>Invencibilidade total</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -877,7 +858,6 @@
                   <p>Cidade: bahamas</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-eye config-icon"></i>
@@ -894,7 +874,6 @@
                   <p>Cidade: santa group</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-eye config-icon"></i>
@@ -911,7 +890,6 @@
                   <p>Cidade: fluxo</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-eye config-icon"></i>
@@ -946,7 +924,6 @@
                   <p>Veículo esportivo</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -962,7 +939,6 @@
                   <p>Veículo de carga</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -978,7 +954,6 @@
                   <p>Veículo moto</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -994,7 +969,6 @@
                   <p>Veículo barco</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1020,7 +994,6 @@
                   <p>Adicionar à mão</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1036,7 +1009,6 @@
                   <p>Adicionar à mão</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1052,7 +1024,6 @@
                   <p>Adicionar à mão</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1068,7 +1039,76 @@
                   <p>Adicionar à mão</p>
                 </div>
                 <div class="feature-status safe">
-
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Aimbot - submenus -->
+        <div v-if="activeButton === 'Aimbot' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden;">
+          <div class="category-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <div><i class="fas fa-crosshairs"></i> Geral do Aimbot</div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Ativar Aimbot</h4>
+                  <p>Ativa o aimbot principal</p>
+                </div>
+                <div class="feature-status safe">
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Modo silencioso</h4>
+                  <p>Não emite sons ao atirar</p>
+                </div>
+                <div class="feature-status safe">
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Atirar automaticamente</h4>
+                  <p>Atira automaticamente ao mirar</p>
+                </div>
+                <div class="feature-status risk">
+                </div>
+                <div class="feature-actions">
+                  <i class="fas fa-cog config-icon"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-name">
+                  <h4>Detecção de movimento</h4>
+                  <p>Detecta alvos em movimento</p>
+                </div>
+                <div class="feature-status safe">
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1094,7 +1134,6 @@
                   <p>ID: 1234 | Nível: 42</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1109,7 +1148,6 @@
                   <p>ID: 5678 | Nível: 38</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1124,7 +1162,6 @@
                   <p>ID: 9012 | Nível: 45</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1139,7 +1176,6 @@
                   <p>ID: 3456 | Nível: 35</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1164,7 +1200,6 @@
                   <p>Sistema avançado de detecção de trapaças</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1180,7 +1215,6 @@
                   <p>Impede o uso de exploits conhecidos</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1196,7 +1230,6 @@
                   <p>Supervisiona atividades suspeitas</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1212,7 +1245,6 @@
                   <p>Registra todas as ações suspeitas</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1238,7 +1270,6 @@
                   <p>Ajustar brilho do ambiente</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1254,7 +1285,6 @@
                   <p>Controlar condições climáticas</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1270,7 +1300,6 @@
                   <p>Controlar direção e intensidade</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1286,7 +1315,6 @@
                   <p>Definir hora do dia</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1328,7 +1356,6 @@
                   <p>Ativar proteção contra trapaças</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1360,7 +1387,6 @@
                   <p>Receber alertas e notificações</p>
                 </div>
                 <div class="feature-status safe">
-
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1397,7 +1423,6 @@
     window.addEventListener('message', (event) => {
       const data = event.data;
       console.log('Mensagem recebida do FiveM:', data);
-      
       if (data.action === 'updateProfile') {
         if (window.app) {
           window.app.userProfile = data.profile;
@@ -1410,12 +1435,10 @@
         document.getElementById('app').classList.remove('visible');
       }
     });
-
     // Inicializar Highlight.js quando a página carregar
     document.addEventListener('DOMContentLoaded', () => {
       hljs.highlightAll();
     });
-
     const app = new Vue({
       el: '#app',
       data: {
@@ -1425,6 +1448,7 @@
           { name: 'Jogador', label: 'Jogador', icon: 'fas fa-user' },
           { name: 'Veiculos', label: 'Veículos', icon: 'fas fa-car' },
           { name: 'Armas', label: 'Armas', icon: 'fas fa-gun' },
+          { name: 'Aimbot', label: 'Aimbot', icon: 'fas fa-crosshairs' },
           { name: 'Online', label: 'Online', icon: 'fas fa-users' },
           { name: 'Exploits', label: 'Exploits', icon: 'fas fa-shield-alt' },
           { name: 'Visual', label: 'Visual', icon: 'fas fa-eye' },
@@ -1439,6 +1463,9 @@
         ],
         armasTabs: [
           { name: 'Todas', label: 'Todas' }
+        ],
+        aimbotTabs: [
+          { name: 'Geral', label: 'Geral' }
         ],
         onlineTabs: [
           { name: 'Todos', label: 'Todos' }
@@ -1463,13 +1490,13 @@
         selectButton(btnName) {
           this.activeButton = btnName;
           if (btnName === 'Jogador') this.activeSubTab = 'Geral';
-          else if (btnName === 'Veículos') this.activeSubTab = 'Todos';
+          else if (btnName === 'Veiculos') this.activeSubTab = 'Todos';
           else if (btnName === 'Armas') this.activeSubTab = 'Todas';
+          else if (btnName === 'Aimbot') this.activeSubTab = 'Geral';
           else if (btnName === 'Online') this.activeSubTab = 'Todos';
           else if (btnName === 'Exploits') this.activeSubTab = 'Anti-Cheat';
           else if (btnName === 'Visual') this.activeSubTab = 'Ambiente';
-          else if (btnName === 'Configurações') this.activeSubTab = 'Geral';
-          
+          else if (btnName === 'Configuracoes') this.activeSubTab = 'Geral';
           console.log('Botão selecionado:', btnName);
         },
         selectSubTab(tabName) {
@@ -1477,17 +1504,9 @@
           console.log('Sub-aba selecionada:', tabName);
         },
         sendToLua(action, data) {
-          console.log('Enviando para Lua:', action, data);
-          fetch(`https://${GetParentResourceName()}/${action}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-        },
-        handleToggle(action, event) {
-          const isChecked = event.target.checked;
-          console.log(`Toggle ${action}:`, isChecked);
-          this.sendToLua(action, { state: isChecked });
+          console.log('Tentando enviar para Lua:', action, data);
+          // DUI externo não pode fazer fetch de volta para FiveM
+          // A interação deve ser detectada pelo Lua via posição do mouse
         }
       },
       mounted() {
@@ -1496,7 +1515,6 @@
         console.log('Interface Vue montada e pronta para receber mensagens do FiveM');
       }
     });
-
     function GetParentResourceName() {
       return 'atual';
     }
