@@ -46,15 +46,15 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       position: relative;
-      /* apagar esse trecho para mostrar interface na pagina */      
-      /* opacity: 0;      
+      /* apagar esse trecho para mostrar interface na pagina */
+      /* opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     #app.visible {
       opacity: 1;
       visibility: visible; */
-      /* apagar esse trecho para mostrar interface na pagina */        
+      /* apagar esse trecho para mostrar interface na pagina */
     }
     .sidebar {
       width: 200px;
@@ -295,11 +295,20 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      cursor: pointer; /* Adiciona cursor pointer ao nome da feature */
     }
     .feature-name h4 {
       color: #ddd;
       margin-bottom: 1px;
       font-size: 12px;
+      /* Estilo para destacar que é clicável */
+      /* padding: 2px 0; */
+      /* border-radius: 4px; */
+      /* transition: background-color 0.2s ease; */
+    }
+    .feature-name h4:hover {
+      color: #4a9bff; /* Muda a cor do nome ao passar o mouse */
+      /* background-color: rgba(74, 155, 255, 0.1); */
     }
     .feature-name p {
       color: #aaa;
@@ -522,62 +531,18 @@
               <div class="category-header">
                 <div><i class="fas fa-user"></i> Geral</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>GodMod</h4>
-                  <p>Invencibilidade total</p>
+              <div class="feature-row" v-for="(feature, index) in jogadorGeralFeatures" :key="'jogador-geral-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Reviver</h4>
-                  <p>Mata o jogador</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Suicidar</h4>
-                  <p>Retira sua vida</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -587,62 +552,18 @@
               <div class="category-header">
                 <div><i class="fas fa-walking"></i> Movimentação</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Noclip</h4>
-                  <p>Voa invisível</p>
+              <div class="feature-row" v-for="(feature, index) in jogadorMovimentacaoFeatures" :key="'jogador-mov-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Freecam</h4>
-                  <p>Escute e observe de longe</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -652,62 +573,18 @@
               <div class="category-header">
                 <div><i class="fas fa-bolt"></i> Poderes</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Modo Hulk</h4>
-                  <p>Arremessa veículos no Y</p>
+              <div class="feature-row" v-for="(feature, index) in jogadorPoderesFeatures" :key="'jogador-pod-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Magneto</h4>
-                  <p>Atrair e repelir veículos</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Super pulo</h4>
-                  <p>Pular uma altura maior</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Andar sobre a água</h4>
-                  <p>Anda sobre a água</p>
-                </div>
-                <div class="feature-status risk">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -715,64 +592,20 @@
             </div>
             <div class="category-card">
               <div class="category-header">
-                <div><i class="fas fa-shield-alt"></i> Proteção</div>
+                <div><i class="fas fa-shield-alt"></i> Outros</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>GodMod</h4>
-                  <p>Invencibilidade total</p>
+              <div class="feature-row" v-for="(feature, index) in jogadorOutrosFeatures" :key="'jogador-out-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Reviver</h4>
-                  <p>Mata o jogador</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -787,62 +620,18 @@
               <div class="category-header">
                 <div><i class="fas fa-tshirt"></i> Roupas customizadas</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Mão</h4>
-                  <p>Personalizar mãos</p>
+              <div class="feature-row" v-for="(feature, index) in jogadorRoupaFeatures" :key="'jogador-roupa-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Braço</h4>
-                  <p>Personalizar braços</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Curar-se</h4>
-                  <p>Invencibilidade total</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -852,50 +641,19 @@
               <div class="category-header">
                 <div><i class="fas fa-tshirt"></i> Roupas customizadas</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Doisdo</h4>
-                  <p>Cidade: bahamas</p>
+              <div class="feature-row" v-for="(feature, index) in jogadorRoupaPresets" :key="'jogador-roupa-preset-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-eye config-icon"></i>
-                  <i class="fas fa-edit config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Assogueiro</h4>
-                  <p>Cidade: santa group</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-eye config-icon"></i>
                   <i class="fas fa-edit config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Paulinho loko</h4>
-                  <p>Cidade: fluxo</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-eye config-icon"></i>
-                  <i class="fas fa-edit config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -912,68 +670,24 @@
           </div>
         </div>
         <!-- Veículos - submenus -->
-        <div v-if="activeButton === 'Veículos' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
+        <div v-if="activeButton === 'Veiculos' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
               <div class="category-header">
                 <div><i class="fas fa-car"></i> Todos os Veículos</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Spawnar Coquette</h4>
-                  <p>Veículo esportivo</p>
+              <div class="feature-row" v-for="(feature, index) in veiculosFeatures" :key="'veiculos-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Spawnar Flatbed</h4>
-                  <p>Veículo de carga</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Spawnar Akuma</h4>
-                  <p>Veículo moto</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Spawnar Marquis</h4>
-                  <p>Veículo barco</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -988,62 +702,18 @@
               <div class="category-header">
                 <div><i class="fas fa-gun"></i> Todas as Armas</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Pistola</h4>
-                  <p>Adicionar à mão</p>
+              <div class="feature-row" v-for="(feature, index) in armasFeatures" :key="'armas-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>SMG</h4>
-                  <p>Adicionar à mão</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Assault Rifle</h4>
-                  <p>Adicionar à mão</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Sniper</h4>
-                  <p>Adicionar à mão</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1058,62 +728,18 @@
               <div class="category-header">
                 <div><i class="fas fa-crosshairs"></i> Geral do Aimbot</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Ativar Aimbot</h4>
-                  <p>Ativa o aimbot principal</p>
+              <div class="feature-row" v-for="(feature, index) in aimbotFeatures" :key="'aimbot-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Modo silencioso</h4>
-                  <p>Não emite sons ao atirar</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Atirar automaticamente</h4>
-                  <p>Atira automaticamente ao mirar</p>
-                </div>
-                <div class="feature-status risk">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Detecção de movimento</h4>
-                  <p>Detecta alvos em movimento</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1128,54 +754,13 @@
               <div class="category-header">
                 <div><i class="fas fa-users"></i> Jogadores Online</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Alex_Racer</h4>
-                  <p>ID: 1234 | Nível: 42</p>
+              <div class="feature-row" v-for="(feature, index) in onlinePlayers" :key="'online-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
-                    <i class="fas fa-user-plus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Miguel_123</h4>
-                  <p>ID: 5678 | Nível: 38</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
-                    <i class="fas fa-user-plus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Carla_Drive</h4>
-                  <p>ID: 9012 | Nível: 45</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
-                    <i class="fas fa-user-plus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Ricardo_X</h4>
-                  <p>ID: 3456 | Nível: 35</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -1194,62 +779,18 @@
               <div class="category-header">
                 <div><i class="fas fa-shield-alt"></i> Sistema Anti-Cheat</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Proteção Anti-Cheat</h4>
-                  <p>Sistema avançado de detecção de trapaças</p>
+              <div class="feature-row" v-for="(feature, index) in exploitsFeatures" :key="'exploits-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Bloqueio de Exploits</h4>
-                  <p>Impede o uso de exploits conhecidos</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Monitoramento</h4>
-                  <p>Supervisiona atividades suspeitas</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Registro</h4>
-                  <p>Registra todas as ações suspeitas</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1264,62 +805,18 @@
               <div class="category-header">
                 <div><i class="fas fa-eye"></i> Configurações Visuais</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Luminosidade</h4>
-                  <p>Ajustar brilho do ambiente</p>
+              <div class="feature-row" v-for="(feature, index) in visualFeatures" :key="'visual-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Clima</h4>
-                  <p>Controlar condições climáticas</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Vento</h4>
-                  <p>Controlar direção e intensidade</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Horário</h4>
-                  <p>Definir hora do dia</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1334,80 +831,18 @@
               <div class="category-header">
                 <div><i class="fas fa-cog"></i> Configurações Gerais</div>
               </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Modo Invisível</h4>
-                  <p>Ocultar jogador dos outros</p>
+              <div class="feature-row" v-for="(feature, index) in configuracoesFeatures" :key="'config-' + index">
+                <div class="feature-name" @click="toggleFeature(feature)">
+                  <h4>{{ feature.name }}</h4>
+                  <p>{{ feature.desc }}</p>
                 </div>
-                <div class="feature-status safe">
-                  <span class="status-indicator"></span> Desativado
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Anti-Exploits</h4>
-                  <p>Ativar proteção contra trapaças</p>
-                </div>
-                <div class="feature-status safe">
+                <div class="feature-status" :class="feature.statusClass">
+                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Chat Global</h4>
-                  <p>Permitir mensagens globais</p>
-                </div>
-                <div class="feature-status safe">
-                  <span class="status-indicator"></span> Desativado
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Notificações</h4>
-                  <p>Receber alertas e notificações</p>
-                </div>
-                <div class="feature-status safe">
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="feature-row">
-                <div class="feature-name">
-                  <h4>Modo Competitivo</h4>
-                  <p>Ativar regras competitivas</p>
-                </div>
-                <div class="feature-status safe">
-                  <span class="status-indicator"></span> Desativado
-                </div>
-                <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -1484,7 +919,89 @@
           name: '', // Inicializado vazio
           role: '', // Inicializado vazio
           avatar: '' // Inicializado vazio
-        }
+        },
+        // Dados das features
+        jogadorGeralFeatures: [
+          { name: 'God Mod', desc: 'Invencibilidade total', statusClass: 'safe', enabled: false },
+          { name: 'Reviver', desc: 'Revive ou Curar-se', statusClass: 'safe', enabled: false },
+          { name: 'Suicidar', desc: 'Retira sua vida', statusClass: 'safe', enabled: false },
+          { name: 'No Clip', desc: 'Voa e atravessa elementos', statusClass: 'safe', enabled: false },
+          { name: 'FreeCam', desc: 'Camera livre', statusClass: 'safe', enabled: false }
+        ],
+        jogadorMovimentacaoFeatures: [
+          { name: 'TPway Morto', desc: 'Teleporta ao morrer', statusClass: 'safe', enabled: false },
+          { name: 'Teleporte Waypoint', desc: 'Teleporta para o local marcado', statusClass: 'safe', enabled: false },
+          { name: 'Correr Rapido', desc: 'Boost aceitavel', statusClass: 'safe', enabled: false },
+          { name: '[F] Rápido', desc: 'Entra/sai rapido do veículo', statusClass: 'safe', enabled: false },
+          { name: 'Ser Carregado', desc: 'Simula [H]', statusClass: 'safe', enabled: false }
+        ],
+        jogadorPoderesFeatures: [
+          { name: 'Hulk', desc: 'Arremessa veículos no Y', statusClass: 'safe', enabled: false },
+          { name: 'Magneto', desc: 'Atrair e repelir veículos', statusClass: 'safe', enabled: false },
+          { name: 'Flash', desc: 'Homem mais rapido do mundo', statusClass: 'safe', enabled: false },
+          { name: 'Andar sobre a água', desc: 'Igual Jesus', statusClass: 'risk', enabled: false },
+          { name: 'Lince Negra', desc: 'Atravessar parede', statusClass: 'risk', enabled: false }
+        ],
+        jogadorOutrosFeatures: [
+          { name: 'Reset PED', desc: 'Reseta o seu personagem', statusClass: 'safe', enabled: false },
+          { name: 'Sessão Solo', desc: 'Outra dimensão', statusClass: 'safe', enabled: false },
+          { name: 'Anti-ADM', desc: 'Se esconde distande de todos', statusClass: 'safe', enabled: false },
+          { name: 'No Ragdoll', desc: 'Não cai da moto', statusClass: 'safe', enabled: false }
+        ],
+        jogadorRoupaFeatures: [
+          { name: 'Mão', desc: 'Personalizar mãos', statusClass: 'safe', enabled: false },
+          { name: 'Braço', desc: 'Personalizar braços', statusClass: 'safe', enabled: false },
+          { name: 'Curar-se', desc: 'Invencibilidade total', statusClass: 'safe', enabled: false },
+          { name: 'Curar-se', desc: 'Invencibilidade total', statusClass: 'safe', enabled: false }
+        ],
+        jogadorRoupaPresets: [
+          { name: 'Doisdo', desc: 'Cidade: bahamas', statusClass: 'safe', enabled: false },
+          { name: 'Assogueiro', desc: 'Cidade: santa group', statusClass: 'safe', enabled: false },
+          { name: 'Paulinho loko', desc: 'Cidade: fluxo', statusClass: 'safe', enabled: false }
+        ],
+        veiculosFeatures: [
+          { name: 'Spawnar Coquette', desc: 'Veículo esportivo', statusClass: 'safe', enabled: false },
+          { name: 'Spawnar Flatbed', desc: 'Veículo de carga', statusClass: 'safe', enabled: false },
+          { name: 'Spawnar Akuma', desc: 'Veículo moto', statusClass: 'safe', enabled: false },
+          { name: 'Spawnar Marquis', desc: 'Veículo barco', statusClass: 'safe', enabled: false }
+        ],
+        armasFeatures: [
+          { name: 'Pistola', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'SMG', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Assault Rifle', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Sniper', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false }
+        ],
+        aimbotFeatures: [
+          { name: 'Ativar Aimbot', desc: 'Ativa o aimbot principal', statusClass: 'safe', enabled: false },
+          { name: 'Modo silencioso', desc: 'Não emite sons ao atirar', statusClass: 'safe', enabled: false },
+          { name: 'Atirar automaticamente', desc: 'Atira automaticamente ao mirar', statusClass: 'risk', enabled: false },
+          { name: 'Detecção de movimento', desc: 'Detecta alvos em movimento', statusClass: 'safe', enabled: false }
+        ],
+        onlinePlayers: [
+          { name: 'Alex_Racer', desc: 'ID: 1234 | Nível: 42', statusClass: 'safe', enabled: false },
+          { name: 'Miguel_123', desc: 'ID: 5678 | Nível: 38', statusClass: 'safe', enabled: false },
+          { name: 'Carla_Drive', desc: 'ID: 9012 | Nível: 45', statusClass: 'safe', enabled: false },
+          { name: 'Ricardo_X', desc: 'ID: 3456 | Nível: 35', statusClass: 'safe', enabled: false }
+        ],
+        exploitsFeatures: [
+          { name: 'Proteção Anti-Cheat', desc: 'Sistema avançado de detecção de trapaças', statusClass: 'safe', enabled: false },
+          { name: 'Bloqueio de Exploits', desc: 'Impede o uso de exploits conhecidos', statusClass: 'safe', enabled: false },
+          { name: 'Monitoramento', desc: 'Supervisiona atividades suspeitas', statusClass: 'safe', enabled: false },
+          { name: 'Registro', desc: 'Registra todas as ações suspeitas', statusClass: 'safe', enabled: false }
+        ],
+        visualFeatures: [
+          { name: 'Luminosidade', desc: 'Ajustar brilho do ambiente', statusClass: 'safe', enabled: false },
+          { name: 'Clima', desc: 'Controlar condições climáticas', statusClass: 'safe', enabled: false },
+          { name: 'Vento', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
+          { name: 'Horário', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false }
+        ],
+        configuracoesFeatures: [
+          { name: 'Modo Invisível', desc: 'Ocultar jogador dos outros', statusClass: 'safe', enabled: false },
+          { name: 'Anti-Exploits', desc: 'Ativar proteção contra trapaças', statusClass: 'safe', enabled: false },
+          { name: 'Chat Global', desc: 'Permitir mensagens globais', statusClass: 'safe', enabled: false },
+          { name: 'Notificações', desc: 'Receber alertas e notificações', statusClass: 'safe', enabled: false },
+          { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
+        ]
       },
       methods: {
         selectButton(btnName) {
@@ -1507,6 +1024,15 @@
           console.log('Tentando enviar para Lua:', action, data);
           // DUI externo não pode fazer fetch de volta para FiveM
           // A interação deve ser detectada pelo Lua via posição do mouse
+        },
+        toggleFeature(feature) {
+          feature.enabled = !feature.enabled;
+          this.onFeatureToggle(feature);
+        },
+        onFeatureToggle(feature) {
+          console.log('Feature alterada:', feature.name, feature.enabled);
+          // Aqui você pode adicionar a lógica para enviar o estado para o FiveM
+          // Exemplo: this.sendToLua('toggleFeature', { name: feature.name, state: feature.enabled });
         }
       },
       mounted() {
