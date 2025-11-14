@@ -57,14 +57,14 @@
       border-radius: 10px;
       margin-bottom: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      border: 1px solid #444;
+      /* border: 1px solid #444; */
       overflow: hidden;
       background: #000; /* Fundo preto opcional para o card da imagem */
     }
     .logo img {
-      width: 100%;
+      width: 50%;
       height: 100%;
-      object-fit: cover;
+      /*object-fit: cover; */ /* Ajusta a imagem para cobrir o espaço do contêiner */
     }
     .menu-buttons {
       display: flex;
@@ -135,7 +135,7 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 1px solid #4a9bff;
+      border: 1px solid #ff4a4a;
       object-fit: cover;
     }
     .user-details-footer {
@@ -147,7 +147,7 @@
     }
     .user-name-footer {
       font-weight: bold;
-      color: #4a9bff;
+      color: #ff4a4a;
       font-size: 13px;
       white-space: nowrap;
       overflow: hidden;
@@ -190,7 +190,7 @@
     }
     .content-header h2 {
       font-size: 24px;
-      color: #4a9bff;
+      color: #ff4a4a;
       margin: 0;
     }
     .sub-menu-tabs {
@@ -292,13 +292,13 @@
       align-items: center;
       gap: 5px;
       font-size: 10px;
-      color: #4a9bff;
+      color: #ff0000;
     }
     .feature-status .status-indicator {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #4a9bff;
+      background: #ff4a4a;
     }
     .feature-status.safe .status-indicator {
       background: #00ff00;
@@ -317,7 +317,7 @@
       font-size: 12px;
     }
     .config-icon:hover {
-      color: #4a9bff;
+      color: #ff4a4a;
     }
     .toggle-switch {
       position: relative;
@@ -765,11 +765,11 @@
             </div>
           </div>
         </div>
-        <div v-if="activeButton === 'Exploits' && activeSubTab === 'Anti-Cheat'" style="height: 100%; overflow: hidden;">
+        <div v-if="activeButton === 'Exploits' && activeSubTab === 'Trolls'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
               <div class="category-header">
-                <div><i class="fas fa-shield-alt"></i> Sistema Anti-Cheat</div>
+                <div><i class="fas fa-shield-alt"></i> Sistema Trolls</div>
               </div>
               <div class="feature-row" v-for="(feature, index) in exploitsFeatures" :key="'exploits-' + index">
                 <div class="feature-name" @click="toggleFeature(feature)">
@@ -789,7 +789,7 @@
             </div>
           </div>
         </div>
-        <div v-if="activeButton === 'Visual' && activeSubTab === 'Ambiente'" style="height: 100%; overflow: hidden;">
+        <div v-if="activeButton === 'Visual' && activeSubTab === 'ESP'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
               <div class="category-header">
@@ -873,10 +873,10 @@
           { name: 'Todos', label: 'Todos' }
         ],
         exploitsTabs: [
-          { name: 'Anti-Cheat', label: 'Anti-Cheat' }
+          { name: 'Trolls', label: 'Trolls' }
         ],
         visualTabs: [
-          { name: 'Ambiente', label: 'Ambiente' }
+          { name: 'ESP', label: 'ESP' }
         ],
         configuracoesTabs: [
           { name: 'Geral', label: 'Geral' }
@@ -891,14 +891,14 @@
           { name: 'Reviver', desc: 'Revive ou Curar-se', statusClass: 'safe', enabled: false },
           { name: 'Suicidar', desc: 'Retira sua vida', statusClass: 'safe', enabled: false },
           { name: 'No Clip', desc: 'Voa e atravessa elementos', statusClass: 'safe', enabled: false },
-          { name: 'FreeCam', desc: 'Camera livre', statusClass: 'safe', enabled: false }
+          { name: 'Invisivel', desc: 'Só ADM consegue te ver', statusClass: 'safe', enabled: false }
         ],
         jogadorMovimentacaoFeatures: [
           { name: 'TPway Morto', desc: 'Teleporta ao morrer', statusClass: 'safe', enabled: false },
           { name: 'Teleporte Waypoint', desc: 'Teleporta para o local marcado', statusClass: 'safe', enabled: false },
           { name: 'Correr Rapido', desc: 'Boost aceitavel', statusClass: 'safe', enabled: false },
           { name: '[F] Rápido', desc: 'Entra/sai rapido do veículo', statusClass: 'safe', enabled: false },
-          { name: 'Ser Carregado', desc: 'Simula [H]', statusClass: 'safe', enabled: false }
+          { name: 'FreeCam', desc: 'Move a camera livre', statusClass: 'safe', enabled: false }
         ],
         jogadorPoderesFeatures: [
           { name: 'Hulk', desc: 'Arremessa veículos no Y', statusClass: 'safe', enabled: false },
@@ -911,7 +911,8 @@
           { name: 'Reset PED', desc: 'Reseta o seu personagem', statusClass: 'safe', enabled: false },
           { name: 'Sessão Solo', desc: 'Outra dimensão', statusClass: 'safe', enabled: false },
           { name: 'Anti-ADM', desc: 'Se esconde distande de todos', statusClass: 'safe', enabled: false },
-          { name: 'No Ragdoll', desc: 'Não cai da moto', statusClass: 'safe', enabled: false }
+          { name: 'No Ragdoll', desc: 'Não cai da moto', statusClass: 'safe', enabled: false },
+          { name: 'FreeCam', desc: 'Não cai da moto', statusClass: 'safe', enabled: false }
         ],
         jogadorRoupaFeatures: [
           { name: 'Mão', desc: 'Personalizar mãos', statusClass: 'safe', enabled: false },
@@ -931,40 +932,59 @@
           { name: 'Spawnar Marquis', desc: 'Veículo barco', statusClass: 'safe', enabled: false }
         ],
         armasFeatures: [
-          { name: 'Pistola', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
-          { name: 'SMG', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
-          { name: 'Assault Rifle', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
-          { name: 'Sniper', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false }
+          { name: 'Pistola MK2', desc: 'Spawn pistola (risco de ban)', statusClass: 'safe', enabled: false },
+          { name: 'Remover armas', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Adicionar Munição', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Munição Infinita', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Manter Munição', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Munição de Fogo', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Munição Perfurante', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Adicionar Attachs', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false },
+          { name: 'Remover Attachs', desc: 'Adicionar à mão', statusClass: 'safe', enabled: false }
         ],
         aimbotFeatures: [
-          { name: 'Ativar Aimbot', desc: 'Ativa o aimbot principal', statusClass: 'safe', enabled: false },
-          { name: 'Modo silencioso', desc: 'Não emite sons ao atirar', statusClass: 'safe', enabled: false },
-          { name: 'Atirar automaticamente', desc: 'Atira automaticamente ao mirar', statusClass: 'risk', enabled: false },
-          { name: 'Detecção de movimento', desc: 'Detecta alvos em movimento', statusClass: 'safe', enabled: false }
+          { name: 'Aimlock', desc: 'Ativa o aimbot principal', statusClass: 'safe', enabled: false },
+          { name: 'FOV Aimbot', desc: 'Mostra o FOV', statusClass: 'safe', enabled: false },
+          { name: 'Mirar em NPCs', desc: 'Aimbot interage com NPCs', statusClass: 'risk', enabled: false },
+          { name: 'Mirar em Mortos', desc: 'Aimbot interage com mortos', statusClass: 'safe', enabled: false },
+          { name: 'Silent Aim', desc: 'Tiro acerta com mira fora do alvo', statusClass: 'safe', enabled: false },
+          { name: 'FOV Silent', desc: 'Mostra o FOV', statusClass: 'safe', enabled: false }
         ],
         onlinePlayers: [
-          { name: 'Alex_Racer', desc: 'ID: 1234 | Nível: 42', statusClass: 'safe', enabled: false },
-          { name: 'Miguel_123', desc: 'ID: 5678 | Nível: 38', statusClass: 'safe', enabled: false },
-          { name: 'Carla_Drive', desc: 'ID: 9012 | Nível: 45', statusClass: 'safe', enabled: false },
-          { name: 'Ricardo_X', desc: 'ID: 3456 | Nível: 35', statusClass: 'safe', enabled: false }
+          { name: 'Lista de Players', desc: 'Mostrar Players Proximo', statusClass: 'safe', enabled: false },
+          { name: 'Spectar Player', desc: 'Visão do player selecionado', statusClass: 'safe', enabled: false },
+          { name: 'TP Player', desc: 'Teleporta no player selecionado', statusClass: 'safe', enabled: false },
+          { name: 'Copiar o Ped', desc: 'Clona o personagem selecionado', statusClass: 'safe', enabled: false },
+          { name: 'Saquear Player', desc: 'Rouba o player morto selecionado', statusClass: 'safe', enabled: false },
+          { name: 'Derrubar Heli', desc: 'Explode veiculos', statusClass: 'safe', enabled: false },
+          { name: 'Salvar Veiculos', desc: 'Usar antes das funções abaixo', statusClass: 'safe', enabled: false },
+          { name: 'Indexar Veiculos', desc: 'Anexa veiculo no player selecionado', statusClass: 'safe', enabled: false },
+          { name: 'Chuva de Veículos', desc: 'Meteoro de veiculo no player selecionado', statusClass: 'safe', enabled: false },
+          { name: 'Bugar Player', desc: 'Deixa o veiculo todo torto', statusClass: 'safe', enabled: false }
         ],
         exploitsFeatures: [
-          { name: 'Proteção Anti-Cheat', desc: 'Sistema avançado de detecção de trapaças', statusClass: 'safe', enabled: false },
-          { name: 'Bloqueio de Exploits', desc: 'Impede o uso de exploits conhecidos', statusClass: 'safe', enabled: false },
-          { name: 'Monitoramento', desc: 'Supervisiona atividades suspeitas', statusClass: 'safe', enabled: false },
-          { name: 'Registro', desc: 'Registra todas as ações suspeitas', statusClass: 'safe', enabled: false }
+          { name: 'Coronhada', desc: 'Teleporta e executa corpo-a-corpo', statusClass: 'safe', enabled: false },
+          { name: 'Olhos Laser', desc: 'Dispara sem matar laser pelos olhos', statusClass: 'safe', enabled: false },
+          { name: 'Comer Player', desc: 'sexo no player selecionado', statusClass: 'safe', enabled: false },
+          { name: 'Super Soco Veiculos', desc: 'Apenas no veiculo', statusClass: 'safe', enabled: false },
+          { name: 'Ser Carregado', desc: 'FAKE [H]', statusClass: 'safe', enabled: false }
         ],
         visualFeatures: [
-          { name: 'Luminosidade', desc: 'Ajustar brilho do ambiente', statusClass: 'safe', enabled: false },
-          { name: 'Clima', desc: 'Controlar condições climáticas', statusClass: 'safe', enabled: false },
-          { name: 'Vento', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
-          { name: 'Horário', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false }
+          { name: 'ESP Nome', desc: 'Ajustar brilho do ESP', statusClass: 'safe', enabled: false },
+          { name: 'ESP Skeletons', desc: 'Controlar condições climáticas', statusClass: 'safe', enabled: false },
+          { name: 'ESP ESPBox', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
+          { name: 'ESP Morto', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
+          { name: 'ESP Arma', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
+          { name: 'ESP Distancia', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
+          { name: 'ESP ADM', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
+          { name: 'ESP Veiculo', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
+          { name: 'ESP Veiculo Trancado', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false }
         ],
         configuracoesFeatures: [
           { name: 'Exibir Mapa', desc: 'Mostra mapa na tela', statusClass: 'safe', enabled: false },
           { name: 'FPS Mode', desc: 'Otimização Grafica', statusClass: 'safe', enabled: false },
-          { name: 'Fake CL', desc: 'Fake CL', statusClass: 'safe', enabled: false },
-          { name: 'Mostrar FPS', desc: 'Receber alertas e notificações', statusClass: 'safe', enabled: false },
+          { name: 'Fake CL', desc: 'QUIT', statusClass: 'safe', enabled: false },
+          { name: 'Mostrar FPS', desc: 'Exibir FPS na tela', statusClass: 'safe', enabled: false },
           { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
         ]
       },
@@ -976,8 +996,8 @@
           else if (btnName === 'Armas') this.activeSubTab = 'Todas';
           else if (btnName === 'Aimbot') this.activeSubTab = 'Geral';
           else if (btnName === 'Online') this.activeSubTab = 'Todos';
-          else if (btnName === 'Exploits') this.activeSubTab = 'Anti-Cheat';
-          else if (btnName === 'Visual') this.activeSubTab = 'Ambiente';
+          else if (btnName === 'Exploits') this.activeSubTab = 'Trolls';
+          else if (btnName === 'Visual') this.activeSubTab = 'ESP';
           else if (btnName === 'Configuracoes') this.activeSubTab = 'Geral';
         },
         selectSubTab(tabName) {
