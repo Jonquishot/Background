@@ -2,17 +2,9 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Menu de Interface</title>
+  <title>MiauScript</title> <!-- Título da página -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Highlight.js for syntax highlighting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/lua.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/css.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/xml.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -20,7 +12,6 @@
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    /* Ocultar barras de rolagem */
     body::-webkit-scrollbar,
     .content::-webkit-scrollbar {
       display: none;
@@ -46,15 +37,6 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       position: relative;
-      /* apagar esse trecho para mostrar interface na pagina */
-      /* opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    #app.visible {
-      opacity: 1;
-      visibility: visible; */
-      /* apagar esse trecho para mostrar interface na pagina */
     }
     .sidebar {
       width: 200px;
@@ -69,22 +51,20 @@
     .logo {
       width: 180px;
       height: 90px;
-      background: linear-gradient(45deg, #600f0f, #000000);
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #ff0000;
-      font-weight: bold;
       border-radius: 10px;
       margin-bottom: 20px;
-      font-size: 16px;
-      letter-spacing: 1px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      /* border: 1px solid #444; */
+      border: 1px solid #444;
+      overflow: hidden;
+      background: #000; /* Fundo preto opcional para o card da imagem */
     }
-    .logo i {
-      margin-right: 8px;
-      color: #4a9bff;
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .menu-buttons {
       display: flex;
@@ -122,8 +102,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
     .sidebar button.active {
-      background: linear-gradient(
-45deg, #600f0f, #000000);
+      background: linear-gradient(45deg, #600f0f, #000000);
       color: white;
       transform: scale(1.02);
       box-shadow: 0 0 15px rgb(255 255 255 / 40%);
@@ -134,17 +113,17 @@
     }
     .footer-info {
       width: 90%;
-      padding: 8px; /* Reduzido para compactar */
-      text-align: left; /* Alinhamento à esquerda para o conteúdo */
-      color: #ddd; /* Cor do texto mais clara */
+      padding: 8px;
+      text-align: left;
+      color: #ddd;
       font-size: 12px;
       border-top: 1px solid #333;
-      margin-top: auto; /* Empurra para o final do sidebar */
-      background: rgba(20, 20, 30, 0.7); /* Fundo consistente com o sidebar */
+      margin-top: auto;
+      background: rgba(20, 20, 30, 0.7);
       border-radius: 6px;
-      display: flex; /* Usar flex para centralizar itens se necessário */
-      align-items: center; /* Alinha verticalmente */
-      gap: 8px; /* Espaçamento entre avatar e texto */
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .user-profile-footer {
       display: flex;
@@ -153,40 +132,40 @@
       width: 100%;
     }
     .user-avatar-footer {
-      width: 32px; /* Tamanho do avatar no rodapé */
+      width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 1px solid #4a9bff; /* Borda consistente com o tema */
-      object-fit: cover; /* Garante que a imagem cubra o espaço sem distorção */
+      border: 1px solid #4a9bff;
+      object-fit: cover;
     }
     .user-details-footer {
       display: flex;
       flex-direction: column;
-      justify-content: center; /* Centraliza verticalmente os textos */
-      flex: 1; /* Ocupa o espaço restante */
-      min-width: 0; /* Permite que o conteúdo seja truncado se necessário */
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
     }
     .user-name-footer {
       font-weight: bold;
-      color: #4a9bff; /* Cor do nome destaca */
+      color: #4a9bff;
       font-size: 13px;
-      white-space: nowrap; /* Evita quebra de linha no nome */
-      overflow: hidden; /* Esconde o excesso */
-      text-overflow: ellipsis; /* Adiciona "..." se o nome for muito longo */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .user-role-footer {
-      color: #aaa; /* Cor mais clara para o cargo */
+      color: #aaa;
       font-size: 11px;
-      white-space: nowrap; /* Evita quebra de linha no cargo */
-      overflow: hidden; /* Esconde o excesso */
-      text-overflow: ellipsis; /* Adiciona "..." se o cargo for muito longo */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .loading-placeholder {
       color: #777;
       font-style: italic;
       width: 100%;
       text-align: center;
-      padding: 5px 0; /* Espaçamento interno */
+      padding: 5px 0;
     }
     .content {
       flex: 1;
@@ -197,7 +176,7 @@
       justify-content: flex-start;
       align-items: center;
       overflow: hidden;
-      opacity: 0.85; /* Mantida a opacidade solicitada */
+      opacity: 0.85;
     }
     .content-header {
       display: flex;
@@ -252,7 +231,6 @@
       display: flex;
       flex-direction: column;
     }
-    /* Layout inspirado na imagem - quadrados lado a lado sem scroll */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -295,20 +273,15 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      cursor: pointer; /* Adiciona cursor pointer ao nome da feature */
+      cursor: pointer;
     }
     .feature-name h4 {
       color: #ddd;
       margin-bottom: 1px;
       font-size: 12px;
-      /* Estilo para destacar que é clicável */
-      /* padding: 2px 0; */
-      /* border-radius: 4px; */
-      /* transition: background-color 0.2s ease; */
     }
     .feature-name h4:hover {
-      color: #4a9bff; /* Muda a cor do nome ao passar o mouse */
-      /* background-color: rgba(74, 155, 255, 0.1); */
+      color: #ff0000;
     }
     .feature-name p {
       color: #aaa;
@@ -359,7 +332,7 @@
     }
     .slider {
       position: absolute;
-      cursor: pointer;
+      cursor: default;
       top: 0;
       left: 0;
       right: 0;
@@ -384,6 +357,40 @@
     }
     input:checked + .slider:before {
       transform: translateX(20px);
+    }
+    .configuracoes-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .configuracoes-card {
+        width: 100%;
+        max-width: 800px;
+        background: rgb(0 0 0 / 60%);
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #444;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .configuracoes-card .category-header {
+        justify-content: center;
+        text-align: center;
+    }
+    .configuracoes-card .feature-row {
+        justify-content: space-between;
+        align-items: center;
+    }
+    .configuracoes-card .feature-name {
+        flex-grow: 1;
+    }
+    .configuracoes-card .feature-actions {
+        margin-left: 10px;
     }
     @media (max-width: 950px) {
       #app {
@@ -429,7 +436,10 @@
 <body>
   <div id="app">
     <div class="sidebar">
-      <div class="logo"> MIAU MENU </div>
+      <!-- Logo carregado da raiz do repositório GitHub Pages -->
+      <div class="logo">
+        <img src="./logo.png" alt="MiauScript Logo">
+      </div>
       <div class="menu-buttons">
         <button v-for="btn in buttons" :key="btn.name"
                 @click="selectButton(btn.name)"
@@ -438,7 +448,6 @@
           {{ btn.label }}
         </button>
       </div>
-      <!-- Novo rodapé com perfil do Discord -->
       <div class="footer-info">
         <div v-if="userProfile.name" class="user-profile-footer">
           <img :src="userProfile.avatar" alt="Avatar" class="user-avatar-footer">
@@ -524,7 +533,6 @@
         </div>
       </div>
       <div class="content-section">
-        <!-- Jogador - submenus -->
         <div v-if="activeButton === 'Jogador' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -537,12 +545,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -558,12 +565,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -579,12 +585,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -600,12 +605,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -613,7 +617,6 @@
             </div>
           </div>
         </div>
-        <!-- Jogador - Roupa personalizada -->
         <div v-if="activeButton === 'Jogador' && activeSubTab === 'Roupa'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
           <div class="category-grid" style="flex: 1;">
             <div class="category-card">
@@ -626,12 +629,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -647,13 +649,12 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-eye config-icon"></i>
                   <i class="fas fa-edit config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -669,7 +670,6 @@
             </button>
           </div>
         </div>
-        <!-- Veículos - submenus -->
         <div v-if="activeButton === 'Veiculos' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -682,12 +682,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -695,7 +694,6 @@
             </div>
           </div>
         </div>
-        <!-- Armas - submenus -->
         <div v-if="activeButton === 'Armas' && activeSubTab === 'Todas'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -708,12 +706,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -721,7 +718,6 @@
             </div>
           </div>
         </div>
-        <!-- Aimbot - submenus -->
         <div v-if="activeButton === 'Aimbot' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -734,12 +730,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -747,7 +742,6 @@
             </div>
           </div>
         </div>
-        <!-- Online - submenus -->
         <div v-if="activeButton === 'Online' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -760,7 +754,6 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
@@ -772,7 +765,6 @@
             </div>
           </div>
         </div>
-        <!-- Exploits - submenus -->
         <div v-if="activeButton === 'Exploits' && activeSubTab === 'Anti-Cheat'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -785,12 +777,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -798,7 +789,6 @@
             </div>
           </div>
         </div>
-        <!-- Visual - submenus -->
         <div v-if="activeButton === 'Visual' && activeSubTab === 'Ambiente'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -811,12 +801,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -824,10 +813,9 @@
             </div>
           </div>
         </div>
-        <!-- Configurações - submenus -->
-        <div v-if="activeButton === 'Configurações' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden;">
-          <div class="category-grid">
-            <div class="category-card">
+        <div v-if="activeButton === 'Configuracoes' && activeSubTab === 'Geral'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
+          <div class="configuracoes-container">
+            <div class="configuracoes-card">
               <div class="category-header">
                 <div><i class="fas fa-cog"></i> Configurações Gerais</div>
               </div>
@@ -837,12 +825,11 @@
                   <p>{{ feature.desc }}</p>
                 </div>
                 <div class="feature-status" :class="feature.statusClass">
-                  <!-- <span class="status-indicator"></span> {{ feature.statusText }} -->
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
-                    <input type="checkbox" v-model="feature.enabled" @change="onFeatureToggle(feature)">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
                   </label>
                 </div>
@@ -854,26 +841,6 @@
     </div>
   </div>
   <script>
-    // Listener para mensagens do FiveM via DUI
-    window.addEventListener('message', (event) => {
-      const data = event.data;
-      console.log('Mensagem recebida do FiveM:', data);
-      if (data.action === 'updateProfile') {
-        if (window.app) {
-          window.app.userProfile = data.profile;
-        }
-      } else if (data.action === 'toggleFeature') {
-        console.log('Toggle feature:', data.feature, data.state);
-      } else if (data.action === 'showMenu') {
-        document.getElementById('app').classList.add('visible');
-      } else if (data.action === 'hideMenu') {
-        document.getElementById('app').classList.remove('visible');
-      }
-    });
-    // Inicializar Highlight.js quando a página carregar
-    document.addEventListener('DOMContentLoaded', () => {
-      hljs.highlightAll();
-    });
     const app = new Vue({
       el: '#app',
       data: {
@@ -914,13 +881,11 @@
         configuracoesTabs: [
           { name: 'Geral', label: 'Geral' }
         ],
-        // Objeto para armazenar os dados do perfil do usuário
         userProfile: {
-          name: '', // Inicializado vazio
-          role: '', // Inicializado vazio
-          avatar: '' // Inicializado vazio
+          name: 'Usuário Anônimo',
+          role: 'Visitante',
+          avatar: 'https://cdn-icons-png.flaticon.com/512/149/149071.png' // Imagem padrão
         },
-        // Dados das features
         jogadorGeralFeatures: [
           { name: 'God Mod', desc: 'Invencibilidade total', statusClass: 'safe', enabled: false },
           { name: 'Reviver', desc: 'Revive ou Curar-se', statusClass: 'safe', enabled: false },
@@ -996,10 +961,10 @@
           { name: 'Horário', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false }
         ],
         configuracoesFeatures: [
-          { name: 'Modo Invisível', desc: 'Ocultar jogador dos outros', statusClass: 'safe', enabled: false },
-          { name: 'Anti-Exploits', desc: 'Ativar proteção contra trapaças', statusClass: 'safe', enabled: false },
-          { name: 'Chat Global', desc: 'Permitir mensagens globais', statusClass: 'safe', enabled: false },
-          { name: 'Notificações', desc: 'Receber alertas e notificações', statusClass: 'safe', enabled: false },
+          { name: 'Exibir Mapa', desc: 'Mostra mapa na tela', statusClass: 'safe', enabled: false },
+          { name: 'FPS Mode', desc: 'Otimização Grafica', statusClass: 'safe', enabled: false },
+          { name: 'Fake CL', desc: 'Fake CL', statusClass: 'safe', enabled: false },
+          { name: 'Mostrar FPS', desc: 'Receber alertas e notificações', statusClass: 'safe', enabled: false },
           { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
         ]
       },
@@ -1014,36 +979,15 @@
           else if (btnName === 'Exploits') this.activeSubTab = 'Anti-Cheat';
           else if (btnName === 'Visual') this.activeSubTab = 'Ambiente';
           else if (btnName === 'Configuracoes') this.activeSubTab = 'Geral';
-          console.log('Botão selecionado:', btnName);
         },
         selectSubTab(tabName) {
           this.activeSubTab = tabName;
-          console.log('Sub-aba selecionada:', tabName);
-        },
-        sendToLua(action, data) {
-          console.log('Tentando enviar para Lua:', action, data);
-          // DUI externo não pode fazer fetch de volta para FiveM
-          // A interação deve ser detectada pelo Lua via posição do mouse
         },
         toggleFeature(feature) {
           feature.enabled = !feature.enabled;
-          this.onFeatureToggle(feature);
-        },
-        onFeatureToggle(feature) {
-          console.log('Feature alterada:', feature.name, feature.enabled);
-          // Aqui você pode adicionar a lógica para enviar o estado para o FiveM
-          // Exemplo: this.sendToLua('toggleFeature', { name: feature.name, state: feature.enabled });
         }
-      },
-      mounted() {
-        // Expor app globalmente para receber mensagens
-        window.app = this;
-        console.log('Interface Vue montada e pronta para receber mensagens do FiveM');
       }
     });
-    function GetParentResourceName() {
-      return 'atual';
-    }
   </script>
 </body>
 </html>
