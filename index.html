@@ -37,15 +37,6 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       position: relative;
-      /* apagar esse trecho para mostrar interface na pagina       
-      opacity: 0;      
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    #app.visible {
-      opacity: 1;
-      visibility: visible;
-      /* apagar esse trecho para mostrar interface na pagina */        
     }
     .sidebar {
       width: 200px;
@@ -483,11 +474,10 @@
         padding: 20px;
       }
     }
-    /* Notificação Styles */
     .notification-container {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: calc(var(--notif-top, 2vh));
+      right: calc(var(--notif-right, 2vw));
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -1017,7 +1007,6 @@
     </div>
   </div>
   <script>
-    // Sistema de Notificações
     class NotificationSystem {
       constructor() {
         this.container = document.getElementById('notification-container');
@@ -1084,8 +1073,30 @@
       }
     }
 
-    // Instância global
     const notificationSystem = new NotificationSystem();
+
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (data.action === 'setNotificationPosition') {
+        const container = document.getElementById('notification-container');
+        if (container) {
+          const topVh = (data.y * 100).toFixed(1);
+          const rightVw = ((1 - data.x) * 100).toFixed(1);
+          container.style.setProperty('--notif-top', topVh + 'vh');
+          container.style.setProperty('--notif-right', rightVw + 'vw');
+        }
+      } else if (data.action === 'notify') {
+        const typeMap = {
+          'success': 'success',
+          'error': 'error',
+          'warning': 'warn',
+          'info': 'info'
+        };
+        
+        const type = typeMap[data.type] || 'info';
+        notificationSystem.show(data.message, type, data.duration);
+      }
+    });
 
     const app = new Vue({
       el: '#app',
@@ -1242,13 +1253,11 @@
           { name: 'FPS Mode', desc: 'Otimização Grafica', statusClass: 'safe', enabled: false },
           { name: 'Fake CL', desc: 'QUIT', statusClass: 'safe', enabled: false },
           { name: 'Mostrar FPS', desc: 'Exibir FPS na tela', statusClass: 'safe', enabled: false },
-          { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false },
-          { name: 'Customizar Notificações', desc: 'Clique na tela para posicionar', statusClass: 'safe', enabled: false }
+          { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
         ],
         // Valores dos sliders FOV
         fovAimlockValue: 1.0,
-        fovSilentValue: 1.5,
-        customizingNotifications: false
+        fovSilentValue: 1.5
       },
       methods: {
         selectButton(btnName) {
@@ -1267,32 +1276,28 @@
         },
         toggleFeature(feature) {
           feature.enabled = !feature.enabled;
-          if (feature.name === 'Customizar Notificações') {
-            this.customizingNotifications = feature.enabled;
-            window.parent.postMessage({ action: feature.enabled ? 'startNotificationCustomization' : 'stopNotificationCustomization' }, '*');
-          }
+        },
+        // Métodos de notificação
+        showNotification(message, type = 'info', duration = 5000) {
+          notificationSystem.show(message, type, duration);
+        },
+        showSuccess(message, duration = 5000) {
+          notificationSystem.success(message, duration);
+        },
+        showError(message, duration = 5000) {
+          notificationSystem.error(message, duration);
+        },
+        showWarn(message, duration = 5000) {
+          notificationSystem.warn(message, duration);
+        },
+        showInfo(message, duration = 5000) {
+          notificationSystem.info(message, duration);
         },
         // Método para atualizar o valor dos sliders
         updateFovValue(type) {
           // Aqui você pode adicionar lógica para enviar o valor para outro lugar
           // Por exemplo, salvar em localStorage, enviar para um servidor, etc.
           console.log(`FOV ${type} atualizado para: ${this[type === 'aimlock' ? 'fovAimlockValue' : 'fovSilentValue']}`);
-        },
-        // Métodos de notificação
-        showNotification(message, type = 'info') {
-          notificationSystem.show(message, type);
-        },
-        showSuccess(message) {
-          notificationSystem.success(message);
-        },
-        showError(message) {
-          notificationSystem.error(message);
-        },
-        showWarn(message) {
-          notificationSystem.warn(message);
-        },
-        showInfo(message) {
-          notificationSystem.info(message);
         }
       }
     });
