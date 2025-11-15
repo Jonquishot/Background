@@ -5,12 +5,40 @@
   <title>MiauScript</title> <!-- Título da página -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    :root {
+      --theme-primary: #808080;
+      --theme-secondary: #a0a0a0;
+      --theme-accent: #b0b0b0;
+      --theme-background: #0f0f0f;
+      --theme-surface: #1a1a1a;
+      --theme-text: #ffffff;
+      --theme-text-secondary: #cccccc;
+      --theme-border: rgba(128, 128, 128, 0.2);
+      --theme-success: #10b981;
+      --theme-warning: #f59e0b;
+      --theme-error: #ef4444;
+      --theme-info: #808080;
+    }
+    :root.dark-theme {
+      --theme-background: #0a0a0a;
+      --theme-surface: #141414;
+    }
+    :root.light-theme {
+      --theme-background: #f5f5f5;
+      --theme-surface: #ffffff;
+      --theme-text: #1a1a1a;
+      --theme-text-secondary: #666666;
+      --theme-border: rgba(128, 128, 128, 0.3);
     }
     body::-webkit-scrollbar,
     .content::-webkit-scrollbar {
@@ -37,6 +65,13 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       position: relative;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #app.visible {
+      opacity: 1; /* se 0 então invisivelo, 1 então visivel */
+      visibility: visible;
     }
     .sidebar {
       width: 200px;
@@ -358,6 +393,49 @@
     input:checked + .slider:before {
       transform: translateX(20px);
     }
+
+    /* Estilos para os sliders de FOV */
+    .fov-slider-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 10px;
+    }
+    .fov-slider {
+      width: 100px;
+      height: 4px;
+      background: #444;
+      border-radius: 2px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .fov-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff0000;
+      cursor: pointer;
+      border: 2px solid #fff;
+    }
+    .fov-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff0000;
+      cursor: pointer;
+      border: 2px solid #fff;
+      border: none;
+    }
+    .fov-value {
+      color: #ff0000;
+      font-size: 10px;
+      font-weight: bold;
+      min-width: 30px;
+      text-align: center;
+    }
+
     .configuracoes-container {
         display: flex;
         justify-content: center;
@@ -391,6 +469,80 @@
     }
     .configuracoes-card .feature-actions {
         margin-left: 10px;
+    }
+    /* Notification System */
+    .notification-container {
+      position: fixed;
+      top: 2vh;
+      right: 2vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.8vh;
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 35vh;
+      overflow: visible;
+    }
+    .notification {
+      min-width: 25vh;
+      max-width: 35vh;
+      background: linear-gradient(135deg, #0f0f0ff2, #191919f2, #0f0f0ff2);
+      color: #fff;
+      border-radius: 0.8vh;
+      font-family: 'Inter', Segoe UI, sans-serif;
+      box-shadow: 0 0.5vh 2vh #0006, 0 0 1vh #0003, inset 0 0 0 0.1vh #ffffff1a;
+      text-align: left;
+      pointer-events: auto;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 0.1vh solid var(--notification-color);
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+      will-change: transform, opacity;
+      display: flex;
+      align-items: center;
+      gap: 0.8vh;
+      padding: 1vh 1.2vh;
+      animation: notification-glow 2s ease-in-out infinite alternate;
+    }
+    .notification-icon {
+      font-size: 1.4vh;
+      color: var(--notification-color);
+      flex-shrink: 0;
+      animation: icon-pulse 2s ease-in-out infinite alternate;
+    }
+    .notification-message {
+      flex: 1;
+      font-size: 1.2vh;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #fff;
+      word-wrap: break-word;
+    }
+    .notification.success {
+      --notification-color: #10b981;
+    }
+    .notification.error {
+      --notification-color: #ef4444;
+    }
+    .notification.warning {
+      --notification-color: #f59e0b;
+    }
+    .notification.info {
+      --notification-color: #808080;
+    }
+    @keyframes notification-glow {
+      0% {
+        box-shadow: 0 0.8vh 3vh #0009, 0 0 2vh #0000004d, inset 0 0 0 0.1vh #ffffff1a, 0 0 1vh var(--notification-color);
+      }
+      to {
+        box-shadow: 0 0.8vh 3vh #0009, 0 0 2vh #0000004d, inset 0 0 0 0.1vh #ffffff1a, 0 0 2vh var(--notification-color);
+      }
+    }
+    @keyframes icon-pulse {
+      0%, to { opacity: 1; }
+      50% { opacity: 0.7; }
     }
     @media (max-width: 950px) {
       #app {
@@ -429,6 +581,15 @@
       .content {
         height: 500px;
         padding: 20px;
+      }
+      .notification-container {
+        top: 1vh;
+        right: 1vh;
+        max-width: 90vw;
+      }
+      .notification {
+        min-width: 20vh;
+        max-width: 90vw;
       }
     }
   </style>
@@ -739,6 +900,36 @@
                   </label>
                 </div>
               </div>
+
+              <!-- Sliders FOV Aimlock e FOV Silent -->
+              <div class="feature-row" style="border: none; padding: 6px 0 0 0; margin-bottom: 0;">
+                <div class="feature-name" style="cursor: default;">
+                  <h4>FOV Aimlock</h4>
+                  <p>Valor atual do campo de visão do Aimlock</p>
+                </div>
+                <div class="feature-status" style="visibility: hidden;"></div>
+                <div class="feature-actions" style="align-items: center;">
+                  <div class="fov-slider-container">
+                    <input type="range" min="1" max="100" step="0.1" v-model.number="fovAimlockValue" @input="updateFovValue('aimlock')" class="fov-slider">
+                    <span class="fov-value">{{ fovAimlockValue.toFixed(1) }}/100.0</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="feature-row" style="border: none; padding: 6px 0 0 0; margin-bottom: 0;">
+                <div class="feature-name" style="cursor: default;">
+                  <h4>FOV Silent</h4>
+                  <p>Valor atual do campo de visão do Silent Aim</p>
+                </div>
+                <div class="feature-status" style="visibility: hidden;"></div>
+                <div class="feature-actions" style="align-items: center;">
+                  <div class="fov-slider-container">
+                    <input type="range" min="1" max="100" step="0.1" v-model.number="fovSilentValue" @input="updateFovValue('silent')" class="fov-slider">
+                    <span class="fov-value">{{ fovSilentValue.toFixed(1) }}/100.0</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -840,7 +1031,120 @@
       </div>
     </div>
   </div>
+  <div id="notification-container" class="notification-container"></div>
   <script>
+    class NotificationSystem {
+      constructor() {
+        this.notifications = [];
+        this.container = document.getElementById('notification-container');
+        this.soundEnabled = true;
+        this.createAudioContext();
+      }
+      
+      createAudioContext() {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      
+      playSound(type) {
+        if (!this.soundEnabled) return;
+        const ctx = this.audioContext;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        const frequencies = {
+          success: 800,
+          error: 300,
+          warning: 600,
+          info: 500
+        };
+        
+        osc.frequency.value = frequencies[type] || 500;
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+      
+      show(message, type = 'info', duration = 5000) {
+        const id = Date.now();
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.id = `notif-${id}`;
+        
+        const iconMap = {
+          success: 'fas fa-check-circle',
+          error: 'fas fa-times-circle',
+          warning: 'fas fa-exclamation-triangle',
+          info: 'fas fa-info-circle'
+        };
+        
+        notification.innerHTML = `
+          <i class="notification-icon ${iconMap[type]}"></i>
+          <span class="notification-message">${message}</span>
+        `;
+        
+        this.container.appendChild(notification);
+        this.playSound(type);
+        
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transform = 'translateX(400px)';
+          setTimeout(() => notification.remove(), 300);
+        }, duration);
+      }
+      
+      success(message, duration = 5000) { this.show(message, 'success', duration); }
+      error(message, duration = 5000) { this.show(message, 'error', duration); }
+      warning(message, duration = 5000) { this.show(message, 'warning', duration); }
+      info(message, duration = 5000) { this.show(message, 'info', duration); }
+      toggleSound(enabled) { this.soundEnabled = enabled; }
+    }
+    
+    const notificationSystem = new NotificationSystem();
+    window.notificationSystem = notificationSystem;
+    
+    class ThemeManager {
+      constructor() {
+        this.currentTheme = localStorage.getItem('theme') || 'dark-theme';
+        this.applyTheme(this.currentTheme);
+      }
+      
+      applyTheme(theme) {
+        document.documentElement.className = theme;
+        localStorage.setItem('theme', theme);
+        this.currentTheme = theme;
+      }
+      
+      toggleTheme() {
+        const newTheme = this.currentTheme === 'dark-theme' ? 'light-theme' : 'dark-theme';
+        this.applyTheme(newTheme);
+        return newTheme;
+      }
+    }
+    
+    const themeManager = new ThemeManager();
+    window.themeManager = themeManager;
+    
+    // Função para controlar visibilidade da interface
+    window.toggleMenuVisibility = function(visible) {
+      const appElement = document.getElementById('app');
+      if (visible) {
+        appElement.classList.add('visible');
+      } else {
+        appElement.classList.remove('visible');
+      }
+    };
+
+    // Mostrar interface por padrão
+    window.addEventListener('DOMContentLoaded', function() {
+      window.toggleMenuVisibility(true);
+    });
+
     const app = new Vue({
       el: '#app',
       data: {
@@ -975,7 +1279,10 @@
           { name: 'Olhos Laser', desc: 'Dispara sem matar laser pelos olhos', statusClass: 'safe', enabled: false },
           { name: 'Comer Player', desc: 'sexo no player selecionado', statusClass: 'safe', enabled: false },
           { name: 'Super Soco Veiculos', desc: 'Apenas no veiculo', statusClass: 'safe', enabled: false },
-          { name: 'Ser Carregado', desc: 'FAKE [H]', statusClass: 'safe', enabled: false }
+          { name: 'Ser Carregado', desc: 'Fake [H]', statusClass: 'safe', enabled: false },
+          { name: 'Surfar no veiculo', desc: 'Tirando onda', statusClass: 'safe', enabled: false },
+          { name: 'Destruir veiculo', desc: 'Kabum', statusClass: 'safe', enabled: false },
+          { name: 'Controle remoto', desc: 'Controlar veiculo selecionado', statusClass: 'safe', enabled: false }
         ],
         visualFeatures: [
           { name: 'ESP Nome', desc: 'Ajustar brilho do ESP', statusClass: 'safe', enabled: false },
@@ -989,12 +1296,15 @@
           { name: 'ESP Veiculo Trancado', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false }
         ],
         configuracoesFeatures: [
-          { name: 'Exibir Mapa', desc: 'Mostra mapa na tela', statusClass: 'safe', enabled: false },
-          { name: 'FPS Mode', desc: 'Otimização Grafica', statusClass: 'safe', enabled: false },
-          { name: 'Fake CL', desc: 'QUIT', statusClass: 'safe', enabled: false },
+          { name: 'Som Notificações', desc: 'Ativar/desativar som', statusClass: 'safe', enabled: true },
+          { name: 'Tema Escuro', desc: 'Ativar tema escuro', statusClass: 'safe', enabled: true },
+          { name: 'Tema Claro', desc: 'Ativar tema claro', statusClass: 'safe', enabled: false },
           { name: 'Mostrar FPS', desc: 'Exibir FPS na tela', statusClass: 'safe', enabled: false },
           { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
-        ]
+        ],
+        // Valores dos sliders FOV
+        fovAimlockValue: 1.0,
+        fovSilentValue: 1.5
       },
       methods: {
         selectButton(btnName) {
@@ -1013,7 +1323,38 @@
         },
         toggleFeature(feature) {
           feature.enabled = !feature.enabled;
+          
+          if (feature.name === 'Som Notificações') {
+            notificationSystem.toggleSound(feature.enabled);
+            this.notify(feature.enabled ? 'Som ativado' : 'Som desativado', 'success');
+          } else if (feature.name === 'Tema Escuro') {
+            if (feature.enabled) {
+              themeManager.applyTheme('dark-theme');
+              this.configuracoesFeatures[2].enabled = false;
+              this.notify('Tema escuro ativado', 'success');
+            }
+          } else if (feature.name === 'Tema Claro') {
+            if (feature.enabled) {
+              themeManager.applyTheme('light-theme');
+              this.configuracoesFeatures[1].enabled = false;
+              this.notify('Tema claro ativado', 'success');
+            }
+          }
+        },
+        // Método para atualizar o valor dos sliders
+        updateFovValue(type) {
+          const value = this[type === 'aimlock' ? 'fovAimlockValue' : 'fovSilentValue'];
+          notificationSystem.info(`FOV ${type === 'aimlock' ? 'Aimlock' : 'Silent'} = ${value.toFixed(1)}`);
+        },
+        notify(message, type = 'info') {
+          notificationSystem[type](message);
         }
+      },
+      mounted() {
+        window.toggleMenuVisibility(true);
+        setTimeout(() => {
+          notificationSystem.success('Interface carregada!', 3000);
+        }, 500);
       }
     });
   </script>
