@@ -5,40 +5,12 @@
   <title>MiauScript</title> <!-- Título da página -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    :root {
-      --theme-primary: #808080;
-      --theme-secondary: #a0a0a0;
-      --theme-accent: #b0b0b0;
-      --theme-background: #0f0f0f;
-      --theme-surface: #1a1a1a;
-      --theme-text: #ffffff;
-      --theme-text-secondary: #cccccc;
-      --theme-border: rgba(128, 128, 128, 0.2);
-      --theme-success: #10b981;
-      --theme-warning: #f59e0b;
-      --theme-error: #ef4444;
-      --theme-info: #808080;
-    }
-    :root.dark-theme {
-      --theme-background: #0a0a0a;
-      --theme-surface: #141414;
-    }
-    :root.light-theme {
-      --theme-background: #f5f5f5;
-      --theme-surface: #ffffff;
-      --theme-text: #1a1a1a;
-      --theme-text-secondary: #666666;
-      --theme-border: rgba(128, 128, 128, 0.3);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body::-webkit-scrollbar,
     .content::-webkit-scrollbar {
@@ -65,13 +37,15 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       position: relative;
-      opacity: 0;
+      /* apagar esse trecho para mostrar interface na pagina */         
+      opacity: 0;      
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     #app.visible {
-      opacity: 1; /* se 0 então invisivelo, 1 então visivel */
+      opacity: 1;
       visibility: visible;
+      /* apagar esse trecho para mostrar interface na pagina */        
     }
     .sidebar {
       width: 200px;
@@ -470,80 +444,6 @@
     .configuracoes-card .feature-actions {
         margin-left: 10px;
     }
-    /* Notification System */
-    .notification-container {
-      position: fixed;
-      top: 2vh;
-      right: 2vh;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.8vh;
-      z-index: 9999;
-      pointer-events: none;
-      max-width: 35vh;
-      overflow: visible;
-    }
-    .notification {
-      min-width: 25vh;
-      max-width: 35vh;
-      background: linear-gradient(135deg, #0f0f0ff2, #191919f2, #0f0f0ff2);
-      color: #fff;
-      border-radius: 0.8vh;
-      font-family: 'Inter', Segoe UI, sans-serif;
-      box-shadow: 0 0.5vh 2vh #0006, 0 0 1vh #0003, inset 0 0 0 0.1vh #ffffff1a;
-      text-align: left;
-      pointer-events: auto;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 0.1vh solid var(--notification-color);
-      position: relative;
-      overflow: hidden;
-      transform: translateZ(0);
-      will-change: transform, opacity;
-      display: flex;
-      align-items: center;
-      gap: 0.8vh;
-      padding: 1vh 1.2vh;
-      animation: notification-glow 2s ease-in-out infinite alternate;
-    }
-    .notification-icon {
-      font-size: 1.4vh;
-      color: var(--notification-color);
-      flex-shrink: 0;
-      animation: icon-pulse 2s ease-in-out infinite alternate;
-    }
-    .notification-message {
-      flex: 1;
-      font-size: 1.2vh;
-      font-weight: 500;
-      line-height: 1.3;
-      color: #fff;
-      word-wrap: break-word;
-    }
-    .notification.success {
-      --notification-color: #10b981;
-    }
-    .notification.error {
-      --notification-color: #ef4444;
-    }
-    .notification.warning {
-      --notification-color: #f59e0b;
-    }
-    .notification.info {
-      --notification-color: #808080;
-    }
-    @keyframes notification-glow {
-      0% {
-        box-shadow: 0 0.8vh 3vh #0009, 0 0 2vh #0000004d, inset 0 0 0 0.1vh #ffffff1a, 0 0 1vh var(--notification-color);
-      }
-      to {
-        box-shadow: 0 0.8vh 3vh #0009, 0 0 2vh #0000004d, inset 0 0 0 0.1vh #ffffff1a, 0 0 2vh var(--notification-color);
-      }
-    }
-    @keyframes icon-pulse {
-      0%, to { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
     @media (max-width: 950px) {
       #app {
         width: 850px;
@@ -582,19 +482,104 @@
         height: 500px;
         padding: 20px;
       }
-      .notification-container {
-        top: 1vh;
-        right: 1vh;
-        max-width: 90vw;
+    }
+    /* Notificação Styles */
+    .notification-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 400px;
+    }
+    .notification {
+      min-width: 300px;
+      max-width: 400px;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+      color: #fff;
+      border-radius: 8px;
+      padding: 15px 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+      text-align: left;
+      pointer-events: auto;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-left: 4px solid #8b5cf6;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideIn 0.3s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
       }
-      .notification {
-        min-width: 20vh;
-        max-width: 90vw;
+      to {
+        transform: translateX(0);
+        opacity: 1;
       }
+    }
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+    .notification.removing {
+      animation: slideOut 0.3s ease-in forwards;
+    }
+    .notification-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+    .notification-message {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .notification.success {
+      border-left-color: #10b981;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+    }
+    .notification.success .notification-icon {
+      color: #10b981;
+    }
+    .notification.error {
+      border-left-color: #ef4444;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+    }
+    .notification.error .notification-icon {
+      color: #ef4444;
+    }
+    .notification.warn {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+    }
+    .notification.warn .notification-icon {
+      color: #f59e0b;
+    }
+    .notification.info {
+      border-left-color: #8b5cf6;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+    }
+    .notification.info .notification-icon {
+      color: #8b5cf6;
     }
   </style>
 </head>
 <body>
+  <div id="notification-container" class="notification-container"></div>
   <div id="app">
     <div class="sidebar">
       <!-- Logo carregado da raiz do repositório GitHub Pages -->
@@ -1031,119 +1016,76 @@
       </div>
     </div>
   </div>
-  <div id="notification-container" class="notification-container"></div>
   <script>
+    // Sistema de Notificações
     class NotificationSystem {
       constructor() {
-        this.notifications = [];
         this.container = document.getElementById('notification-container');
-        this.soundEnabled = true;
-        this.createAudioContext();
+        this.notifications = [];
       }
-      
-      createAudioContext() {
-        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      
-      playSound(type) {
-        if (!this.soundEnabled) return;
-        const ctx = this.audioContext;
-        const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        
-        const frequencies = {
-          success: 800,
-          error: 300,
-          warning: 600,
-          info: 500
-        };
-        
-        osc.frequency.value = frequencies[type] || 500;
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-        
-        osc.start(now);
-        osc.stop(now + 0.3);
-      }
-      
+
       show(message, type = 'info', duration = 5000) {
         const id = Date.now();
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.id = `notif-${id}`;
-        
+
         const iconMap = {
           success: 'fas fa-check-circle',
           error: 'fas fa-times-circle',
-          warning: 'fas fa-exclamation-triangle',
+          warn: 'fas fa-exclamation-triangle',
           info: 'fas fa-info-circle'
         };
-        
+
         notification.innerHTML = `
-          <i class="notification-icon ${iconMap[type]}"></i>
+          <i class="notification-icon ${iconMap[type] || iconMap.info}"></i>
           <span class="notification-message">${message}</span>
         `;
-        
-        this.container.appendChild(notification);
-        this.playSound(type);
-        
-        setTimeout(() => {
-          notification.style.opacity = '0';
-          notification.style.transform = 'translateX(400px)';
-          setTimeout(() => notification.remove(), 300);
-        }, duration);
-      }
-      
-      success(message, duration = 5000) { this.show(message, 'success', duration); }
-      error(message, duration = 5000) { this.show(message, 'error', duration); }
-      warning(message, duration = 5000) { this.show(message, 'warning', duration); }
-      info(message, duration = 5000) { this.show(message, 'info', duration); }
-      toggleSound(enabled) { this.soundEnabled = enabled; }
-    }
-    
-    const notificationSystem = new NotificationSystem();
-    window.notificationSystem = notificationSystem;
-    
-    class ThemeManager {
-      constructor() {
-        this.currentTheme = localStorage.getItem('theme') || 'dark-theme';
-        this.applyTheme(this.currentTheme);
-      }
-      
-      applyTheme(theme) {
-        document.documentElement.className = theme;
-        localStorage.setItem('theme', theme);
-        this.currentTheme = theme;
-      }
-      
-      toggleTheme() {
-        const newTheme = this.currentTheme === 'dark-theme' ? 'light-theme' : 'dark-theme';
-        this.applyTheme(newTheme);
-        return newTheme;
-      }
-    }
-    
-    const themeManager = new ThemeManager();
-    window.themeManager = themeManager;
-    
-    // Função para controlar visibilidade da interface
-    window.toggleMenuVisibility = function(visible) {
-      const appElement = document.getElementById('app');
-      if (visible) {
-        appElement.classList.add('visible');
-      } else {
-        appElement.classList.remove('visible');
-      }
-    };
 
-    // Mostrar interface por padrão
-    window.addEventListener('DOMContentLoaded', function() {
-      window.toggleMenuVisibility(true);
-    });
+        this.container.appendChild(notification);
+        this.notifications.push(id);
+
+        if (duration > 0) {
+          setTimeout(() => this.remove(id), duration);
+        }
+
+        return id;
+      }
+
+      remove(id) {
+        const notif = document.getElementById(`notif-${id}`);
+        if (notif) {
+          notif.classList.add('removing');
+          setTimeout(() => {
+            notif.remove();
+            this.notifications = this.notifications.filter(n => n !== id);
+          }, 300);
+        }
+      }
+
+      success(message, duration = 5000) {
+        return this.show(message, 'success', duration);
+      }
+
+      error(message, duration = 5000) {
+        return this.show(message, 'error', duration);
+      }
+
+      warn(message, duration = 5000) {
+        return this.show(message, 'warn', duration);
+      }
+
+      info(message, duration = 5000) {
+        return this.show(message, 'info', duration);
+      }
+
+      clear() {
+        this.notifications.forEach(id => this.remove(id));
+      }
+    }
+
+    // Instância global
+    const notificationSystem = new NotificationSystem();
 
     const app = new Vue({
       el: '#app',
@@ -1296,9 +1238,9 @@
           { name: 'ESP Veiculo Trancado', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false }
         ],
         configuracoesFeatures: [
-          { name: 'Som Notificações', desc: 'Ativar/desativar som', statusClass: 'safe', enabled: true },
-          { name: 'Tema Escuro', desc: 'Ativar tema escuro', statusClass: 'safe', enabled: true },
-          { name: 'Tema Claro', desc: 'Ativar tema claro', statusClass: 'safe', enabled: false },
+          { name: 'Exibir Mapa', desc: 'Mostra mapa na tela', statusClass: 'safe', enabled: false },
+          { name: 'FPS Mode', desc: 'Otimização Grafica', statusClass: 'safe', enabled: false },
+          { name: 'Fake CL', desc: 'QUIT', statusClass: 'safe', enabled: false },
           { name: 'Mostrar FPS', desc: 'Exibir FPS na tela', statusClass: 'safe', enabled: false },
           { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
         ],
@@ -1323,38 +1265,33 @@
         },
         toggleFeature(feature) {
           feature.enabled = !feature.enabled;
-          
-          if (feature.name === 'Som Notificações') {
-            notificationSystem.toggleSound(feature.enabled);
-            this.notify(feature.enabled ? 'Som ativado' : 'Som desativado', 'success');
-          } else if (feature.name === 'Tema Escuro') {
-            if (feature.enabled) {
-              themeManager.applyTheme('dark-theme');
-              this.configuracoesFeatures[2].enabled = false;
-              this.notify('Tema escuro ativado', 'success');
-            }
-          } else if (feature.name === 'Tema Claro') {
-            if (feature.enabled) {
-              themeManager.applyTheme('light-theme');
-              this.configuracoesFeatures[1].enabled = false;
-              this.notify('Tema claro ativado', 'success');
-            }
-          }
+          // Exemplo de notificação ao ativar/desativar feature
+          const status = feature.enabled ? 'ativado' : 'desativado';
+          const type = feature.enabled ? 'success' : 'info';
+          this.showNotification(`${feature.name} ${status}`, type);
         },
         // Método para atualizar o valor dos sliders
         updateFovValue(type) {
-          const value = this[type === 'aimlock' ? 'fovAimlockValue' : 'fovSilentValue'];
-          notificationSystem.info(`FOV ${type === 'aimlock' ? 'Aimlock' : 'Silent'} = ${value.toFixed(1)}`);
+          // Aqui você pode adicionar lógica para enviar o valor para outro lugar
+          // Por exemplo, salvar em localStorage, enviar para um servidor, etc.
+          console.log(`FOV ${type} atualizado para: ${this[type === 'aimlock' ? 'fovAimlockValue' : 'fovSilentValue']}`);
         },
-        notify(message, type = 'info') {
-          notificationSystem[type](message);
+        // Métodos de notificação
+        showNotification(message, type = 'info') {
+          notificationSystem.show(message, type);
+        },
+        showSuccess(message) {
+          notificationSystem.success(message);
+        },
+        showError(message) {
+          notificationSystem.error(message);
+        },
+        showWarn(message) {
+          notificationSystem.warn(message);
+        },
+        showInfo(message) {
+          notificationSystem.info(message);
         }
-      },
-      mounted() {
-        window.toggleMenuVisibility(true);
-        setTimeout(() => {
-          notificationSystem.success('Interface carregada!', 3000);
-        }, 500);
       }
     });
   </script>
