@@ -753,7 +753,7 @@
             </div>
           </div>
         </div>
-        <div v-if="activeButton === 'Jogador' && activeSubTab === 'Roupa'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
+        <!-- <div v-if="activeButton === 'Jogador' && activeSubTab === 'Roupa'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;"> 
           <div class="category-grid" style="flex: 1;">
             <div class="category-card">
               <div class="category-header">
@@ -805,7 +805,7 @@
               Adicionar
             </button>
           </div>
-        </div>
+        </div>  -->
         <div v-if="activeButton === 'Veiculos' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -939,7 +939,7 @@
                 <div class="feature-status" :class="feature.statusClass">
                 </div>
                 <div class="feature-actions">
-                  <i class="fas fa-cog config-icon"></i>
+                  <!-- <i class="fas fa-cog config-icon"></i> -->
                   <label class="toggle-switch">
                     <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
@@ -1085,7 +1085,7 @@
         ],
         jogadorTabs: [
           { name: 'Geral', label: 'Geral' },
-          { name: 'Roupa', label: 'Roupa' }
+          // { name: 'Roupa', label: 'Roupa' }
         ],
         veiculosTabs: [
           { name: 'Todos', label: 'Todos' }
@@ -1141,7 +1141,7 @@
           { name: 'No Ragdoll', desc: 'Não cai da moto', statusClass: 'safe', enabled: false },
           { name: 'FreeCam', desc: 'Não cai da moto', statusClass: 'safe', enabled: false }
         ],
-        jogadorRoupaFeatures: [
+        /* jogadorRoupaFeatures: [
           { name: 'Mão', desc: 'Personalizar mãos', statusClass: 'safe', enabled: false },
           { name: 'Braço', desc: 'Personalizar braços', statusClass: 'safe', enabled: false },
           { name: 'Curar-se', desc: 'Invencibilidade total', statusClass: 'safe', enabled: false },
@@ -1151,7 +1151,7 @@
           { name: 'Doisdo', desc: 'Cidade: bahamas', statusClass: 'safe', enabled: false },
           { name: 'Assogueiro', desc: 'Cidade: santa group', statusClass: 'safe', enabled: false },
           { name: 'Paulinho loko', desc: 'Cidade: fluxo', statusClass: 'safe', enabled: false }
-        ],
+        ],*/
         veiculosFeatures: [
           { name: 'Lista de Veiculos', desc: 'Mostra os veiculos proximos', statusClass: 'safe', enabled: false },
           { name: 'Reparar Veiculo', desc: 'Concertar o veiculo selecionado', statusClass: 'safe', enabled: false },
@@ -1209,7 +1209,8 @@
         visualFeatures: [
           { name: 'ESP Nome', desc: 'Ajustar brilho do ESP', statusClass: 'safe', enabled: false },
           { name: 'ESP Skeletons', desc: 'Controlar condições climáticas', statusClass: 'safe', enabled: false },
-          { name: 'ESP ESPBox', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
+          { name: 'ESP CornerBox', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
+          { name: 'ESP Vida', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },          
           { name: 'ESP Morto', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
           { name: 'ESP Arma', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
           { name: 'ESP Distancia', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
