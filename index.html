@@ -875,36 +875,6 @@
                   </label>
                 </div>
               </div>
-
-              <!-- Sliders FOV Aimlock e FOV Silent -->
-              <div class="feature-row" style="border: none; padding: 6px 0 0 0; margin-bottom: 0;">
-                <div class="feature-name" style="cursor: default;">
-                  <h4>FOV Aimlock</h4>
-                  <input type="range" min="1" max="100" step="0.1" v-model.number="fovAimlockValue" @input="updateFovValue('aimlock')" class="fov-slider">
-                  <p>Valor atual do campo de visão do Aimlock</p>
-                </div>
-                <div class="feature-status" style="visibility: hidden;"></div>
-                <div class="feature-actions" style="align-items: center;">
-                  <div class="fov-slider-container">
-                    <span class="fov-value">{{ fovAimlockValue.toFixed(1) }}/100.0</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="feature-row" style="border: none; padding: 6px 0 0 0; margin-bottom: 0;">
-                <div class="feature-name" style="cursor: default;">
-                  <h4>FOV Aimlock</h4>
-                  <input type="range" min="1" max="100" step="0.1" v-model.number="fovAimlockValue" @input="updateFovValue('aimlock')" class="fov-slider">
-                  <p>Valor atual do campo de visão do Aimlock</p>
-                </div>
-                <div class="feature-status" style="visibility: hidden;"></div>
-                <div class="feature-actions" style="align-items: center;">
-                  <div class="fov-slider-container">
-                    <span class="fov-value">{{ fovAimlockValue.toFixed(1) }}/100.0</span>
-                  </div>
-                </div>
-              </div>
-              
             </div>
           </div>
         </div>
@@ -1191,7 +1161,6 @@
           { name: 'Tunar no Máximo', desc: 'Dirige melhor', statusClass: 'safe', enabled: false },
           { name: 'Teleportar', desc: 'Pega essa onda', statusClass: 'safe', enabled: false },
           { name: 'Trazer', desc: 'Controla veiculo de longe', statusClass: 'safe', enabled: false },
-          { name: 'Teleportar', desc: 'Teleporta para veiculo selecionado', statusClass: 'safe', enabled: false },
           { name: 'Bugar Veículo', desc: 'Buga veiculo selecionado', statusClass: 'safe', enabled: false },
           { name: 'Remover P1', desc: 'Retira  motorista do carro selecionado', statusClass: 'safe', enabled: false },
           { name: 'Deletar', desc: 'Deleta veiculo desocupado selecionado', statusClass: 'safe', enabled: false }
