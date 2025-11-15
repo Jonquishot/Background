@@ -1242,11 +1242,13 @@
           { name: 'FPS Mode', desc: 'Otimização Grafica', statusClass: 'safe', enabled: false },
           { name: 'Fake CL', desc: 'QUIT', statusClass: 'safe', enabled: false },
           { name: 'Mostrar FPS', desc: 'Exibir FPS na tela', statusClass: 'safe', enabled: false },
-          { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false }
+          { name: 'Modo Competitivo', desc: 'Ativar regras competitivas', statusClass: 'safe', enabled: false },
+          { name: 'Customizar Notificações', desc: 'Clique na tela para posicionar', statusClass: 'safe', enabled: false }
         ],
         // Valores dos sliders FOV
         fovAimlockValue: 1.0,
-        fovSilentValue: 1.5
+        fovSilentValue: 1.5,
+        customizingNotifications: false
       },
       methods: {
         selectButton(btnName) {
@@ -1265,10 +1267,10 @@
         },
         toggleFeature(feature) {
           feature.enabled = !feature.enabled;
-          // Exemplo de notificação ao ativar/desativar feature
-          const status = feature.enabled ? 'ativado' : 'desativado';
-          const type = feature.enabled ? 'success' : 'info';
-          this.showNotification(`${feature.name} ${status}`, type);
+          if (feature.name === 'Customizar Notificações') {
+            this.customizingNotifications = feature.enabled;
+            window.parent.postMessage({ action: feature.enabled ? 'startNotificationCustomization' : 'stopNotificationCustomization' }, '*');
+          }
         },
         // Método para atualizar o valor dos sliders
         updateFovValue(type) {
