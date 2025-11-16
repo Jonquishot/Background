@@ -498,7 +498,7 @@
       text-align: left;
       pointer-events: auto;
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      border-left: 4px solid #8b5cf6;
+      border-left: 4px solid #b4b4b4;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -560,11 +560,11 @@
       color: #f59e0b;
     }
     .notification.info {
-      border-left-color: #8b5cf6;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+      border-left-color: #b8b8b8;
+      background: linear-gradient(135deg, rgba(90, 244, 255, 0.1), rgba(246, 92, 92, 0.05));
     }
     .notification.info .notification-icon {
-      color: #8b5cf6;
+      color: #b8b8b8;
     }
   </style>
 </head>
@@ -893,8 +893,12 @@
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
-                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
-                    <i class="fas fa-user-plus"></i>
+                  <label class="toggle-switch">
+                    <input type="checkbox" :checked="feature.enabled" readonly>
+                    <span class="slider"></span>
+                  </label>                  
+                  <!-- <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-user-plus"></i> -->
                   </button>
                 </div>
               </div>
