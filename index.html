@@ -11,6 +11,16 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      cursor: none;
+    }
+    
+    .custom-cursor {
+      position: fixed;
+      width: 32px;
+      height: 32px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
     }
     body::-webkit-scrollbar,
     .content::-webkit-scrollbar {
@@ -474,102 +484,10 @@
         padding: 20px;
       }
     }
-    .notification-container {
-      position: fixed;
-      top: calc(var(--notif-top, 2vh));
-      right: calc(var(--notif-right, 2vw));
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-      z-index: 9999;
-      pointer-events: none;
-      max-width: 400px;
-    }
-    .notification {
-      min-width: 300px;
-      max-width: 400px;
-      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-      color: #fff;
-      border-radius: 8px;
-      padding: 15px 20px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-      text-align: left;
-      pointer-events: auto;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      border-left: 4px solid #b4b4b4;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      animation: slideIn 0.3s ease-out;
-    }
-    @keyframes slideIn {
-      from {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    @keyframes slideOut {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-    }
-    .notification.removing {
-      animation: slideOut 0.3s ease-in forwards;
-    }
-    .notification-icon {
-      font-size: 18px;
-      flex-shrink: 0;
-      min-width: 20px;
-    }
-    .notification-message {
-      flex: 1;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-    .notification.success {
-      border-left-color: #10b981;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
-    }
-    .notification.success .notification-icon {
-      color: #10b981;
-    }
-    .notification.error {
-      border-left-color: #ef4444;
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
-    }
-    .notification.error .notification-icon {
-      color: #ef4444;
-    }
-    .notification.warn {
-      border-left-color: #f59e0b;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
-    }
-    .notification.warn .notification-icon {
-      color: #f59e0b;
-    }
-    .notification.info {
-      border-left-color: #b8b8b8;
-      background: linear-gradient(135deg, rgba(90, 244, 255, 0.1), rgba(246, 92, 92, 0.05));
-    }
-    .notification.info .notification-icon {
-      color: #b8b8b8;
-    }
   </style>
 </head>
 <body>
-  <div id="notification-container" class="notification-container"></div>
+  <img class="custom-cursor" src="MeuGatoPreferido.png" alt="Cursor">
   <div id="app">
     <div class="sidebar">
       <!-- Logo carregado da raiz do repositório GitHub Pages -->
@@ -753,7 +671,7 @@
             </div>
           </div>
         </div>
-        <!-- <div v-if="activeButton === 'Jogador' && activeSubTab === 'Roupa'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;"> 
+        <div v-if="activeButton === 'Jogador' && activeSubTab === 'Roupa'" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
           <div class="category-grid" style="flex: 1;">
             <div class="category-card">
               <div class="category-header">
@@ -805,7 +723,7 @@
               Adicionar
             </button>
           </div>
-        </div>  -->
+        </div>
         <div v-if="activeButton === 'Veiculos' && activeSubTab === 'Todos'" style="height: 100%; overflow: hidden;">
           <div class="category-grid">
             <div class="category-card">
@@ -875,6 +793,36 @@
                   </label>
                 </div>
               </div>
+
+              <!-- Sliders FOV Aimlock e FOV Silent -->
+              <div class="feature-row" style="border: none; padding: 6px 0 0 0; margin-bottom: 0;">
+                <div class="feature-name" style="cursor: default;">
+                  <h4>FOV Aimlock</h4>
+                  <p>Valor atual do campo de visão do Aimlock</p>
+                </div>
+                <div class="feature-status" style="visibility: hidden;"></div>
+                <div class="feature-actions" style="align-items: center;">
+                  <div class="fov-slider-container">
+                    <input type="range" min="1" max="100" step="0.1" v-model.number="fovAimlockValue" @input="updateFovValue('aimlock')" class="fov-slider">
+                    <span class="fov-value">{{ fovAimlockValue.toFixed(1) }}/100.0</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="feature-row" style="border: none; padding: 6px 0 0 0; margin-bottom: 0;">
+                <div class="feature-name" style="cursor: default;">
+                  <h4>FOV Silent</h4>
+                  <p>Valor atual do campo de visão do Silent Aim</p>
+                </div>
+                <div class="feature-status" style="visibility: hidden;"></div>
+                <div class="feature-actions" style="align-items: center;">
+                  <div class="fov-slider-container">
+                    <input type="range" min="1" max="100" step="0.1" v-model.number="fovSilentValue" @input="updateFovValue('silent')" class="fov-slider">
+                    <span class="fov-value">{{ fovSilentValue.toFixed(1) }}/100.0</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -893,12 +841,8 @@
                 </div>
                 <div class="feature-actions">
                   <i class="fas fa-cog config-icon"></i>
-                  <label class="toggle-switch">
-                    <input type="checkbox" :checked="feature.enabled" readonly>
-                    <span class="slider"></span>
-                  </label>                  
-                  <!-- <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
-                    <i class="fas fa-user-plus"></i> -->
+                  <button class="btn btn-secondary" style="padding: 3px 6px; font-size: 10px; background: rgba(60, 60, 80, 0.8); border: none; color: #ddd; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-user-plus"></i>
                   </button>
                 </div>
               </div>
@@ -943,7 +887,7 @@
                 <div class="feature-status" :class="feature.statusClass">
                 </div>
                 <div class="feature-actions">
-                  <!-- <i class="fas fa-cog config-icon"></i> -->
+                  <i class="fas fa-cog config-icon"></i>
                   <label class="toggle-switch">
                     <input type="checkbox" :checked="feature.enabled" readonly>
                     <span class="slider"></span>
@@ -981,97 +925,6 @@
     </div>
   </div>
   <script>
-    class NotificationSystem {
-      constructor() {
-        this.container = document.getElementById('notification-container');
-        this.notifications = [];
-      }
-
-      show(message, type = 'info', duration = 5000) {
-        const id = Date.now();
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.id = `notif-${id}`;
-
-        const iconMap = {
-          success: 'fas fa-check-circle',
-          error: 'fas fa-times-circle',
-          warn: 'fas fa-exclamation-triangle',
-          info: 'fas fa-info-circle'
-        };
-
-        notification.innerHTML = `
-          <i class="notification-icon ${iconMap[type] || iconMap.info}"></i>
-          <span class="notification-message">${message}</span>
-        `;
-
-        this.container.appendChild(notification);
-        this.notifications.push(id);
-
-        if (duration > 0) {
-          setTimeout(() => this.remove(id), duration);
-        }
-
-        return id;
-      }
-
-      remove(id) {
-        const notif = document.getElementById(`notif-${id}`);
-        if (notif) {
-          notif.classList.add('removing');
-          setTimeout(() => {
-            notif.remove();
-            this.notifications = this.notifications.filter(n => n !== id);
-          }, 300);
-        }
-      }
-
-      success(message, duration = 5000) {
-        return this.show(message, 'success', duration);
-      }
-
-      error(message, duration = 5000) {
-        return this.show(message, 'error', duration);
-      }
-
-      warn(message, duration = 5000) {
-        return this.show(message, 'warn', duration);
-      }
-
-      info(message, duration = 5000) {
-        return this.show(message, 'info', duration);
-      }
-
-      clear() {
-        this.notifications.forEach(id => this.remove(id));
-      }
-    }
-
-    const notificationSystem = new NotificationSystem();
-
-    window.addEventListener('message', (event) => {
-      const data = event.data;
-      if (data.action === 'setNotificationPosition') {
-        const container = document.getElementById('notification-container');
-        if (container) {
-          const topVh = (data.y * 100).toFixed(1);
-          const rightVw = ((1 - data.x) * 100).toFixed(1);
-          container.style.setProperty('--notif-top', topVh + 'vh');
-          container.style.setProperty('--notif-right', rightVw + 'vw');
-        }
-      } else if (data.action === 'notify') {
-        const typeMap = {
-          'success': 'success',
-          'error': 'error',
-          'warning': 'warn',
-          'info': 'info'
-        };
-        
-        const type = typeMap[data.type] || 'info';
-        notificationSystem.show(data.message, type, data.duration);
-      }
-    });
-
     const app = new Vue({
       el: '#app',
       data: {
@@ -1089,7 +942,7 @@
         ],
         jogadorTabs: [
           { name: 'Geral', label: 'Geral' },
-          // { name: 'Roupa', label: 'Roupa' }
+          { name: 'Roupa', label: 'Roupa' }
         ],
         veiculosTabs: [
           { name: 'Todos', label: 'Todos' }
@@ -1145,7 +998,7 @@
           { name: 'No Ragdoll', desc: 'Não cai da moto', statusClass: 'safe', enabled: false },
           { name: 'FreeCam', desc: 'Não cai da moto', statusClass: 'safe', enabled: false }
         ],
-        /* jogadorRoupaFeatures: [
+        jogadorRoupaFeatures: [
           { name: 'Mão', desc: 'Personalizar mãos', statusClass: 'safe', enabled: false },
           { name: 'Braço', desc: 'Personalizar braços', statusClass: 'safe', enabled: false },
           { name: 'Curar-se', desc: 'Invencibilidade total', statusClass: 'safe', enabled: false },
@@ -1155,7 +1008,7 @@
           { name: 'Doisdo', desc: 'Cidade: bahamas', statusClass: 'safe', enabled: false },
           { name: 'Assogueiro', desc: 'Cidade: santa group', statusClass: 'safe', enabled: false },
           { name: 'Paulinho loko', desc: 'Cidade: fluxo', statusClass: 'safe', enabled: false }
-        ],*/
+        ],
         veiculosFeatures: [
           { name: 'Lista de Veiculos', desc: 'Mostra os veiculos proximos', statusClass: 'safe', enabled: false },
           { name: 'Reparar Veiculo', desc: 'Concertar o veiculo selecionado', statusClass: 'safe', enabled: false },
@@ -1165,6 +1018,7 @@
           { name: 'Tunar no Máximo', desc: 'Dirige melhor', statusClass: 'safe', enabled: false },
           { name: 'Teleportar', desc: 'Pega essa onda', statusClass: 'safe', enabled: false },
           { name: 'Trazer', desc: 'Controla veiculo de longe', statusClass: 'safe', enabled: false },
+          { name: 'Teleportar', desc: 'Teleporta para veiculo selecionado', statusClass: 'safe', enabled: false },
           { name: 'Bugar Veículo', desc: 'Buga veiculo selecionado', statusClass: 'safe', enabled: false },
           { name: 'Remover P1', desc: 'Retira  motorista do carro selecionado', statusClass: 'safe', enabled: false },
           { name: 'Deletar', desc: 'Deleta veiculo desocupado selecionado', statusClass: 'safe', enabled: false }
@@ -1213,8 +1067,7 @@
         visualFeatures: [
           { name: 'ESP Nome', desc: 'Ajustar brilho do ESP', statusClass: 'safe', enabled: false },
           { name: 'ESP Skeletons', desc: 'Controlar condições climáticas', statusClass: 'safe', enabled: false },
-          { name: 'ESP CornerBox', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
-          { name: 'ESP Vida', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },          
+          { name: 'ESP ESPBox', desc: 'Controlar direção e intensidade', statusClass: 'safe', enabled: false },
           { name: 'ESP Morto', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
           { name: 'ESP Arma', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
           { name: 'ESP Distancia', desc: 'Definir hora do dia', statusClass: 'safe', enabled: false },
@@ -1251,22 +1104,6 @@
         toggleFeature(feature) {
           feature.enabled = !feature.enabled;
         },
-        // Métodos de notificação
-        showNotification(message, type = 'info', duration = 5000) {
-          notificationSystem.show(message, type, duration);
-        },
-        showSuccess(message, duration = 5000) {
-          notificationSystem.success(message, duration);
-        },
-        showError(message, duration = 5000) {
-          notificationSystem.error(message, duration);
-        },
-        showWarn(message, duration = 5000) {
-          notificationSystem.warn(message, duration);
-        },
-        showInfo(message, duration = 5000) {
-          notificationSystem.info(message, duration);
-        },
         // Método para atualizar o valor dos sliders
         updateFovValue(type) {
           // Aqui você pode adicionar lógica para enviar o valor para outro lugar
@@ -1274,6 +1111,13 @@
           console.log(`FOV ${type} atualizado para: ${this[type === 'aimlock' ? 'fovAimlockValue' : 'fovSilentValue']}`);
         }
       }
+    });
+    
+    // Cursor personalizado
+    const cursor = document.querySelector('.custom-cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
     });
   </script>
 </body>
