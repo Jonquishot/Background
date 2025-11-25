@@ -11,16 +11,6 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      cursor: none;
-    }
-    
-    .custom-cursor {
-      position: fixed;
-      width: 32px;
-      height: 32px;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
     }
     body::-webkit-scrollbar,
     .content::-webkit-scrollbar {
@@ -487,7 +477,6 @@
   </style>
 </head>
 <body>
-  <img class="custom-cursor" src="MeuGatoPreferido.png" alt="Cursor">
   <div id="app">
     <div class="sidebar">
       <!-- Logo carregado da raiz do repositório GitHub Pages -->
@@ -1111,13 +1100,6 @@
           console.log(`FOV ${type} atualizado para: ${this[type === 'aimlock' ? 'fovAimlockValue' : 'fovSilentValue']}`);
         }
       }
-    });
-    
-    // Cursor personalizado
-    const cursor = document.querySelector('.custom-cursor');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
     });
   </script>
 </body>
